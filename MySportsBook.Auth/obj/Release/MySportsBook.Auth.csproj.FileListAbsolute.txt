@@ -1,0 +1,6 @@
+D:\Training\MySportsBook.Api\MySportsBook.Auth\bin\Release\MySportsBook.Auth.dll
+D:\Training\MySportsBook.Api\MySportsBook.Auth\bin\Release\MySportsBook.Auth.pdb
+D:\Training\MySportsBook.Api\MySportsBook.Auth\obj\Release\MySportsBook.Auth.csprojResolveAssemblyReference.cache
+D:\Training\MySportsBook.Api\MySportsBook.Auth\obj\Release\MySportsBook.Auth.csproj.CoreCompileInputs.cache
+D:\Training\MySportsBook.Api\MySportsBook.Auth\obj\Release\MySportsBook.Auth.dll
+D:\Training\MySportsBook.Api\MySportsBook.Auth\obj\Release\MySportsBook.Auth.pdb

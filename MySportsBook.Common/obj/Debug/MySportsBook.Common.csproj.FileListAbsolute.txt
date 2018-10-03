@@ -1,0 +1,16 @@
+D:\Training\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.dll
+D:\Training\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.pdb
+D:\Training\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csprojResolveAssemblyReference.cache
+D:\Training\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csproj.CoreCompileInputs.cache
+D:\Training\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.dll
+D:\Training\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.pdb
+E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csproj.CoreCompileInputs.cache
+E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.dll
+E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.pdb
+E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.dll
+E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.pdb
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.dll
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.pdb
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csproj.CoreCompileInputs.cache
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.dll
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.pdb

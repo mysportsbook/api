@@ -43,3 +43,4 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Mo
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.pdb
+D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csprojResolveAssemblyReference.cache

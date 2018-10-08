@@ -5,3 +5,10 @@
 *.ide-shm
 *.ide-wal
 MySportsBook.Api/bin/
+MySportsBookModel/bin/
+MySportsBookModel/obj/
+MySportsBook.Api/obj/
+*.dll
+*.pdb
+*.cache
+MySportsBook.Api/obj/Debug/MySportsBook.Api.csproj.FileListAbsolute.txt

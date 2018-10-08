@@ -10,8 +10,6 @@
     <EntitySet Name="Configuration_Status" EntityType="MySportsBookModel.Configuration_Status" />
     <EntitySet Name="Configuration_User" EntityType="MySportsBookModel.Configuration_User" />
     <EntitySet Name="Confirguration_PaymentMode" EntityType="MySportsBookModel.Confirguration_PaymentMode" />
-    <EntitySet Name="Enquiries" EntityType="MySportsBookModel.Enquiry" />
-    <EntitySet Name="Enquiry_Comments" EntityType="MySportsBookModel.Enquiry_Comments" />
     <EntitySet Name="Master_Batch" EntityType="MySportsBookModel.Master_Batch" />
     <EntitySet Name="Master_CoachingLevel" EntityType="MySportsBookModel.Master_CoachingLevel" />
     <EntitySet Name="Master_Court" EntityType="MySportsBookModel.Master_Court" />
@@ -269,10 +267,6 @@
       <End Role="Confirguration_PaymentMode" EntitySet="Confirguration_PaymentMode" />
       <End Role="Transaction_Receipt" EntitySet="Transaction_Receipt" />
     </AssociationSet>
-    <AssociationSet Name="FK_Enquiry_Comments_Enquiry" Association="MySportsBookModel.FK_Enquiry_Comments_Enquiry">
-      <End Role="Enquiry" EntitySet="Enquiries" />
-      <End Role="Enquiry_Comments" EntitySet="Enquiry_Comments" />
-    </AssociationSet>
     <AssociationSet Name="FK_Master_Batch_Master_Court" Association="MySportsBookModel.FK_Master_Batch_Master_Court">
       <End Role="Master_Court" EntitySet="Master_Court" />
       <End Role="Master_Batch" EntitySet="Master_Batch" />
@@ -396,6 +390,16 @@
     <AssociationSet Name="FK_Transaction_Receipt_Transaction_Invoice" Association="MySportsBookModel.FK_Transaction_Receipt_Transaction_Invoice">
       <End Role="Transaction_Invoice" EntitySet="Transaction_Invoice" />
       <End Role="Transaction_Receipt" EntitySet="Transaction_Receipt" />
+    </AssociationSet>
+    <EntitySet Name="Master_Enquiry" EntityType="MySportsBookModel.Master_Enquiry" />
+    <EntitySet Name="Transaction_Enquiry_Comments" EntityType="MySportsBookModel.Transaction_Enquiry_Comments" />
+    <AssociationSet Name="FK_Enquiry_Master_Venue" Association="MySportsBookModel.FK_Enquiry_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Enquiry_Comments_Master_Enquiry" Association="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry">
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
+      <End Role="Transaction_Enquiry_Comments" EntitySet="Transaction_Enquiry_Comments" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="BatchCount">
@@ -541,29 +545,6 @@
     <Property Name="PaymentMode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="PaymentModeCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Transaction_Receipt" Relationship="MySportsBookModel.FK_Transaction_Receipt_Confirguration_PaymentMode" FromRole="Confirguration_PaymentMode" ToRole="Transaction_Receipt" />
-  </EntityType>
-  <EntityType Name="Enquiry">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Game" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Slot" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Enquiry_Comments" Relationship="MySportsBookModel.FK_Enquiry_Comments_Enquiry" FromRole="Enquiry" ToRole="Enquiry_Comments" />
-  </EntityType>
-  <EntityType Name="Enquiry_Comments">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EnquiryId" Type="Int32" Nullable="false" />
-    <Property Name="Comments" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Enquiry" Relationship="MySportsBookModel.FK_Enquiry_Comments_Enquiry" FromRole="Enquiry_Comments" ToRole="Enquiry" />
   </EntityType>
   <EntityType Name="Master_Batch">
     <Key>
@@ -836,6 +817,7 @@
     <NavigationProperty Name="Transaction_Invoice" Relationship="MySportsBookModel.FK_Transaction_Invoice_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_Invoice" />
     <NavigationProperty Name="Transaction_PlayerSport" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_PlayerSport" />
     <NavigationProperty Name="Transaction_Receipt" Relationship="MySportsBookModel.FK_Transaction_Receipt_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_Receipt" />
+    <NavigationProperty Name="Master_Enquiry" Relationship="MySportsBookModel.FK_Enquiry_Master_Venue" FromRole="Master_Venue" ToRole="Master_Enquiry" />
   </EntityType>
   <EntityType Name="Transaction_Attendance">
     <Key>
@@ -1701,18 +1683,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Enquiry_Comments_Enquiry">
-    <End Type="MySportsBookModel.Enquiry" Role="Enquiry" Multiplicity="1" />
-    <End Type="MySportsBookModel.Enquiry_Comments" Role="Enquiry_Comments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Enquiry">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Enquiry_Comments">
-        <PropertyRef Name="EnquiryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Master_Batch_Master_Court">
     <End Type="MySportsBookModel.Master_Court" Role="Master_Court" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_Batch" Role="Master_Batch" Multiplicity="*" />
@@ -2082,6 +2052,57 @@
       </Principal>
       <Dependent Role="Transaction_Receipt">
         <PropertyRef Name="FK_InvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Master_Enquiry">
+    <Key>
+      <PropertyRef Name="PK_EnquiryId" />
+    </Key>
+    <Property Name="PK_EnquiryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Game" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Slot" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Comments" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Enquiry_Master_Venue" FromRole="Master_Enquiry" ToRole="Master_Venue" />
+    <NavigationProperty Name="Transaction_Enquiry_Comments" Relationship="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry" FromRole="Master_Enquiry" ToRole="Transaction_Enquiry_Comments" />
+  </EntityType>
+  <EntityType Name="Transaction_Enquiry_Comments">
+    <Key>
+      <PropertyRef Name="PK_EnquiryCommentsId" />
+    </Key>
+    <Property Name="PK_EnquiryCommentsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FK_EnquiryId" Type="Int32" Nullable="false" />
+    <Property Name="Comments" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Master_Enquiry" Relationship="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry" FromRole="Transaction_Enquiry_Comments" ToRole="Master_Enquiry" />
+  </EntityType>
+  <Association Name="FK_Enquiry_Master_Venue">
+    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="Master_Enquiry">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Enquiry_Comments_Master_Enquiry">
+    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="1" />
+    <End Type="MySportsBookModel.Transaction_Enquiry_Comments" Role="Transaction_Enquiry_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Enquiry">
+        <PropertyRef Name="PK_EnquiryId" />
+      </Principal>
+      <Dependent Role="Transaction_Enquiry_Comments">
+        <PropertyRef Name="FK_EnquiryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

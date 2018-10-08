@@ -297,6 +297,7 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\Microsoft.Visua
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.AppContext.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.Collections.Immutable.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.IO.FileSystem.Primitives.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.Reflection.Metadata.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\vbc.exe
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\vbc.exe.config
@@ -369,5 +370,3 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Debug\MySportsBook.Api
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Debug\MySportsBook.Api.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Debug\MySportsBook.Api.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Debug\MySportsBook.Api.pdb
-D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.IO.FileSystem.Primitives.dll
-D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\roslyn\System.IO.FileSystem.dll

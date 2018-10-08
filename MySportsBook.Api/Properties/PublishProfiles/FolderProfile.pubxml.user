@@ -133,10 +133,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2012 11:08:46</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.dll">
-      <publishTime>09/28/2018 22:00:44</publishTime>
+      <publishTime>10/08/2018 18:38:56</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.pdb">
-      <publishTime>09/28/2018 22:00:44</publishTime>
+      <publishTime>10/08/2018 18:38:56</publishTime>
     </File>
     <File Include="bin/MySportsBook.Common.dll">
       <publishTime>09/28/2018 01:49:26</publishTime>
@@ -145,13 +145,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/28/2018 01:49:26</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.dll">
-      <publishTime>09/28/2018 22:00:41</publishTime>
+      <publishTime>10/08/2018 18:06:21</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.dll.config">
       <publishTime>09/12/2018 16:27:59</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.pdb">
-      <publishTime>09/28/2018 22:00:41</publishTime>
+      <publishTime>10/08/2018 18:06:21</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/24/2018 17:44:14</publishTime>

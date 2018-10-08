@@ -83,27 +83,6 @@
     <Property Name="PaymentMode" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="PaymentModeCode" Type="varchar" MaxLength="10" />
   </EntityType>
-  <EntityType Name="Enquiry">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="Game" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Slot" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="CreatedBy" Type="int" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Enquiry_Comments">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EnquiryId" Type="int" Nullable="false" />
-    <Property Name="Comments" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="CreatedBy" Type="int" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-  </EntityType>
   <EntityType Name="Master_Batch">
     <Key>
       <PropertyRef Name="PK_BatchId" />
@@ -162,6 +141,20 @@
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
     <Property Name="ModifiedBy" Type="int" />
     <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Master_Enquiry">
+    <Key>
+      <PropertyRef Name="PK_EnquiryId" />
+    </Key>
+    <Property Name="PK_EnquiryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FK_VenueId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Mobile" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Game" Type="varchar" MaxLength="50" />
+    <Property Name="Slot" Type="varchar" MaxLength="10" />
+    <Property Name="Comments" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Master_Player">
     <Key>
@@ -299,6 +292,16 @@
     <Property Name="FK_BatchId" Type="int" Nullable="false" />
     <Property Name="FK_PlayerId" Type="int" Nullable="false" />
     <Property Name="Present" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transaction_Enquiry_Comments">
+    <Key>
+      <PropertyRef Name="PK_EnquiryCommentsId" />
+    </Key>
+    <Property Name="PK_EnquiryCommentsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FK_EnquiryId" Type="int" Nullable="false" />
+    <Property Name="Comments" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="CreatedBy" Type="int" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
@@ -447,15 +450,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Enquiry_Comments_Enquiry">
-    <End Role="Enquiry" Type="Self.Enquiry" Multiplicity="1" />
-    <End Role="Enquiry_Comments" Type="Self.Enquiry_Comments" Multiplicity="*" />
+  <Association Name="FK_Enquiry_Master_Venue">
+    <End Role="Master_Venue" Type="Self.Master_Venue" Multiplicity="1" />
+    <End Role="Master_Enquiry" Type="Self.Master_Enquiry" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Enquiry">
-        <PropertyRef Name="Id" />
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
       </Principal>
-      <Dependent Role="Enquiry_Comments">
-        <PropertyRef Name="EnquiryId" />
+      <Dependent Role="Master_Enquiry">
+        <PropertyRef Name="FK_VenueId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1155,6 +1158,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Transaction_Enquiry_Comments_Master_Enquiry">
+    <End Role="Master_Enquiry" Type="Self.Master_Enquiry" Multiplicity="1" />
+    <End Role="Transaction_Enquiry_Comments" Type="Self.Transaction_Enquiry_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Enquiry">
+        <PropertyRef Name="PK_EnquiryId" />
+      </Principal>
+      <Dependent Role="Transaction_Enquiry_Comments">
+        <PropertyRef Name="FK_EnquiryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Transaction_Invoice_Configuration_Status">
     <End Role="Configuration_Status" Type="Self.Configuration_Status" Multiplicity="1" />
     <End Role="Transaction_Invoice" Type="Self.Transaction_Invoice" Multiplicity="*" />
@@ -1513,11 +1528,10 @@
     <EntitySet Name="Configuration_Status" EntityType="Self.Configuration_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Configuration_User" EntityType="Self.Configuration_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Confirguration_PaymentMode" EntityType="Self.Confirguration_PaymentMode" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Enquiry" EntityType="Self.Enquiry" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Enquiry_Comments" EntityType="Self.Enquiry_Comments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Batch" EntityType="Self.Master_Batch" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_CoachingLevel" EntityType="Self.Master_CoachingLevel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Court" EntityType="Self.Master_Court" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Master_Enquiry" EntityType="Self.Master_Enquiry" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Player" EntityType="Self.Master_Player" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Role" EntityType="Self.Master_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_RoleScreen" EntityType="Self.Master_RoleScreen" Schema="dbo" store:Type="Tables" />
@@ -1527,6 +1541,7 @@
     <EntitySet Name="Master_UserVenue" EntityType="Self.Master_UserVenue" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Venue" EntityType="Self.Master_Venue" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_Attendance" EntityType="Self.Transaction_Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transaction_Enquiry_Comments" EntityType="Self.Transaction_Enquiry_Comments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_Invoice" EntityType="Self.Transaction_Invoice" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_InvoiceDetail" EntityType="Self.Transaction_InvoiceDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_PlayerSport" EntityType="Self.Transaction_PlayerSport" Schema="dbo" store:Type="Tables" />
@@ -1548,9 +1563,9 @@
       <End Role="Configuration_Status" EntitySet="Configuration_Status" />
       <End Role="Configuration_User" EntitySet="Configuration_User" />
     </AssociationSet>
-    <AssociationSet Name="FK_Enquiry_Comments_Enquiry" Association="Self.FK_Enquiry_Comments_Enquiry">
-      <End Role="Enquiry" EntitySet="Enquiry" />
-      <End Role="Enquiry_Comments" EntitySet="Enquiry_Comments" />
+    <AssociationSet Name="FK_Enquiry_Master_Venue" Association="Self.FK_Enquiry_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_Batch_Configuration_BatchType" Association="Self.FK_Master_Batch_Configuration_BatchType">
       <End Role="Configuration_BatchType" EntitySet="Configuration_BatchType" />
@@ -1783,6 +1798,10 @@
     <AssociationSet Name="FK_Transaction_Attendance_Master_Venue" Association="Self.FK_Transaction_Attendance_Master_Venue">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
       <End Role="Transaction_Attendance" EntitySet="Transaction_Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Enquiry_Comments_Master_Enquiry" Association="Self.FK_Transaction_Enquiry_Comments_Master_Enquiry">
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
+      <End Role="Transaction_Enquiry_Comments" EntitySet="Transaction_Enquiry_Comments" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_Invoice_Configuration_Status" Association="Self.FK_Transaction_Invoice_Configuration_Status">
       <End Role="Configuration_Status" EntitySet="Configuration_Status" />

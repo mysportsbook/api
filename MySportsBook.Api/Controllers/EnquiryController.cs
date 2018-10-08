@@ -87,7 +87,7 @@ namespace MySportsBook.Api.Controllers
 
             enquiryModel.ForEach(x =>
             {
-                var _item = dbContext.Transaction_Enquiry_Comments.Where(c => c.FK_EnquiryId == x.EnquiryId).OrderByDescending(o => o.CreatedDate).Select(com => $"{com.CreatedDate.ToString("dd/MM/yyyy")} - {com.Comments.ToString()}").ToList();
+                var _item = dbContext.Transaction_Enquiry_Comments.Where(c => c.FK_EnquiryId == x.EnquiryId).OrderByDescending(o => o.CreatedDate).AsEnumerable().Select(com =>  $"{com.CreatedDate.ToString("dd/MM/yyyy")} - {com.Comments.ToString()}".ToString()).ToList();
                 if (_item != null)
                 {
                     x.Comments = new List<string>();

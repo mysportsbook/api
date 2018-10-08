@@ -39,8 +39,8 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\bin\Debug\EntityFramework
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\bin\Debug\EntityFramework.SqlServer.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\bin\Debug\EntityFramework.xml
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\bin\Debug\EntityFramework.SqlServer.xml
+D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csprojResolveAssemblyReference.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CoreCompileInputs.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.pdb
-D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csprojResolveAssemblyReference.cache

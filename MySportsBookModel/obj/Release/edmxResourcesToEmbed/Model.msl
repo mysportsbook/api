@@ -93,29 +93,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Enquiries">
-      <EntityTypeMapping TypeName="MySportsBookModel.Enquiry">
-        <MappingFragment StoreEntitySet="Enquiry">
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Slot" ColumnName="Slot" />
-          <ScalarProperty Name="Game" ColumnName="Game" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Enquiry_Comments">
-      <EntityTypeMapping TypeName="MySportsBookModel.Enquiry_Comments">
-        <MappingFragment StoreEntitySet="Enquiry_Comments">
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="EnquiryId" ColumnName="EnquiryId" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Master_Batch">
       <EntityTypeMapping TypeName="MySportsBookModel.Master_Batch">
         <MappingFragment StoreEntitySet="Master_Batch">
@@ -425,6 +402,32 @@
           <ScalarProperty Name="VoucherDate" ColumnName="VoucherDate" />
           <ScalarProperty Name="VoucherNumber" ColumnName="VoucherNumber" />
           <ScalarProperty Name="PK_VoucherId" ColumnName="PK_VoucherId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Master_Enquiry">
+      <EntityTypeMapping TypeName="MySportsBookModel.Master_Enquiry">
+        <MappingFragment StoreEntitySet="Master_Enquiry">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Slot" ColumnName="Slot" />
+          <ScalarProperty Name="Game" ColumnName="Game" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FK_VenueId" ColumnName="FK_VenueId" />
+          <ScalarProperty Name="PK_EnquiryId" ColumnName="PK_EnquiryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transaction_Enquiry_Comments">
+      <EntityTypeMapping TypeName="MySportsBookModel.Transaction_Enquiry_Comments">
+        <MappingFragment StoreEntitySet="Transaction_Enquiry_Comments">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="FK_EnquiryId" ColumnName="FK_EnquiryId" />
+          <ScalarProperty Name="PK_EnquiryCommentsId" ColumnName="PK_EnquiryCommentsId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

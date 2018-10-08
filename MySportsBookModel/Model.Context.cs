@@ -24,7 +24,7 @@ namespace MySportsBookModel
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Ignore<Enquiry_Comments>();
+            throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<BatchCount> BatchCounts { get; set; }
@@ -36,8 +36,6 @@ namespace MySportsBookModel
         public virtual DbSet<Configuration_Status> Configuration_Status { get; set; }
         public virtual DbSet<Configuration_User> Configuration_User { get; set; }
         public virtual DbSet<Confirguration_PaymentMode> Confirguration_PaymentMode { get; set; }
-        public virtual DbSet<Enquiry> Enquiries { get; set; }
-        public virtual DbSet<Enquiry_Comments> Enquiry_Comments { get; set; }
         public virtual DbSet<Master_Batch> Master_Batch { get; set; }
         public virtual DbSet<Master_CoachingLevel> Master_CoachingLevel { get; set; }
         public virtual DbSet<Master_Court> Master_Court { get; set; }
@@ -55,5 +53,7 @@ namespace MySportsBookModel
         public virtual DbSet<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
         public virtual DbSet<Transaction_Receipt> Transaction_Receipt { get; set; }
         public virtual DbSet<Transaction_Voucher> Transaction_Voucher { get; set; }
+        public virtual DbSet<Master_Enquiry> Master_Enquiry { get; set; }
+        public virtual DbSet<Transaction_Enquiry_Comments> Transaction_Enquiry_Comments { get; set; }
     }
 }

@@ -12,14 +12,14 @@ namespace MySportsBookModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Enquiry_Comments
+    public partial class Transaction_Enquiry_Comments
     {
-        public int ID { get; set; }
-        public int EnquiryId { get; set; }
+        public int PK_EnquiryCommentsId { get; set; }
+        public int FK_EnquiryId { get; set; }
         public string Comments { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual Enquiry Enquiry { get; set; }
+        public virtual Master_Enquiry Master_Enquiry { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MySportsBookModel.ViewModel;
+﻿using MySportsBookModel;
+using MySportsBookModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +14,7 @@ namespace MySportsBook.Api.Controllers
     {
         [HttpGet]
         [Authorize]
-        // GET api/attendance
+        // GET api/enquiry
         public IHttpActionResult Get()
         {
             return GetResult();
@@ -21,7 +22,7 @@ namespace MySportsBook.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        // GET api/attendance
+        // GET api/enquiry
         public IHttpActionResult Get(int venueid)
         {
             return GetResult(venueid);
@@ -29,39 +30,69 @@ namespace MySportsBook.Api.Controllers
 
         [HttpPost]
         [Authorize]
-        // GET api/venue
+        // GET api/enquiry
         public IHttpActionResult Post(EnquiryModel enquiryModel)
         {
-            enquiryModel.Enquiry.CreatedBy = CurrentUser.PK_UserId;
-            enquiryModel.Enquiry.CreatedDate = DateTime.Now.ToUniversalTime();
-
-            if (enquiryModel.Enquiry.Id == 0)
-                dbContext.Enquiries.Add(enquiryModel.Enquiry);
-            else
-                dbContext.Entry(enquiryModel.Enquiry).State = EntityState.Modified;
-            dbContext.SaveChanges();
-            enquiryModel.Enquiry_Comments.ForEach(c =>
+            Master_Enquiry _enquiry = new Master_Enquiry();
+            if (enquiryModel.EnquiryId == 0)
             {
-                c.EnquiryId = enquiryModel.Enquiry.Id;
-                c.CreatedBy = CurrentUser.PK_UserId;
-                c.CreatedDate = DateTime.Now.ToUniversalTime();
-            });
-            dbContext.Enquiry_Comments.AddRange(enquiryModel.Enquiry_Comments);
+                _enquiry = new Master_Enquiry() { FK_VenueId = enquiryModel.VenueId, Game = enquiryModel.Game, Mobile = enquiryModel.Mobile, Name = enquiryModel.Name, Slot = enquiryModel.Slot, Comments = enquiryModel.Comment };
+                dbContext.Master_Enquiry.Add(_enquiry);
+            }
+            else
+            {
+                _enquiry = dbContext.Master_Enquiry.Find(enquiryModel.EnquiryId);
+                if (_enquiry != null)
+                {
+                    _enquiry.Name = enquiryModel.Name;
+                    _enquiry.Game = enquiryModel.Game;
+                    _enquiry.Mobile = enquiryModel.Mobile;
+                    _enquiry.Slot = enquiryModel.Slot;
+                    dbContext.Entry(_enquiry).State = EntityState.Modified;
+                }
+            }
             dbContext.SaveChanges();
-            return Ok(enquiryModel);
+            enquiryModel.Comments.ToList().ForEach(c =>
+            {
+                dbContext.Transaction_Enquiry_Comments.Add(new Transaction_Enquiry_Comments()
+                {
+                    Comments = c,
+                    FK_EnquiryId = _enquiry.PK_EnquiryId,
+                    CreatedBy = CurrentUser.PK_UserId,
+                    CreatedDate = DateTime.Now.ToUniversalTime()
+                });
+            });
+
+            dbContext.SaveChanges();
+
+            return Ok(_enquiry);
         }
 
         [NonAction]
         private IHttpActionResult GetResult(int venueid = 0)
         {
-            List<EnquiryModel> enquiryModel = new List<EnquiryModel>();
-            dbContext.Enquiries.Where(x => x.Id == (venueid != 0 ? venueid : x.Id)).ToList().ForEach(enq =>
+            var enquiryModel = dbContext.Master_Enquiry.Where(x => x.PK_EnquiryId == (venueid != 0 ? venueid : x.PK_EnquiryId))
+                 .Select(e =>
+                          new EnquiryModel
+                          {
+                              EnquiryId = e.PK_EnquiryId,
+                              Game = e.Game,
+                              Mobile = e.Mobile,
+                              Name = e.Name,
+                              Slot = e.Slot,
+                              Comment = e.Comments,
+                              VenueId = e.FK_VenueId,
+
+                          }).ToList();
+
+            enquiryModel.ForEach(x =>
             {
-                enquiryModel.Add(new EnquiryModel()
+                var _item = dbContext.Transaction_Enquiry_Comments.Where(c => c.FK_EnquiryId == x.EnquiryId).OrderByDescending(o => o.CreatedDate).Select(com => $"{com.CreatedDate.ToString("dd/MM/yyyy")} - {com.Comments.ToString()}").ToList();
+                if (_item != null)
                 {
-                    Enquiry = enq,
-                    Enquiry_Comments = dbContext.Enquiry_Comments.Where(c => c.EnquiryId == enq.Id).OrderByDescending(x => x.CreatedDate).ToList()
-                });
+                    x.Comments = new List<string>();
+                    x.Comments.AddRange(_item);
+                }
             });
             return Ok(enquiryModel);
         }

@@ -4,8 +4,4 @@
 *.ide
 *.ide-shm
 *.ide-wal
-[Bb]in
-[Dd]ebug*/
-*.sbr
-obj/
-[Rr]elease*/
+MySportsBook.Api/bin/

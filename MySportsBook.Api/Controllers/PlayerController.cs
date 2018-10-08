@@ -45,31 +45,31 @@ namespace MySportsBook.Api.Controllers
             return GetResult(venueid, sportid, courtid, batchid);
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("api/Player/Attendance")]
-        // GET api/values
-        public IHttpActionResult GetPlayerForAttendance(int venueid, int sportid, int courtid, int batchid)
-        {
-            var batchplayer = GetPlayer(venueid, sportid, courtid, batchid);
-            var attendanceplayer = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).GroupBy(x => x.FK_PlayerId).Select(p => p.First())
-                                .Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
-            attendanceplayer.ToList().ForEach(attplay =>
-            {
-                if (batchplayer.Where(x => x.PlayerId == attplay.play.PK_PlayerId).Count() <= 0)
-                {
-                    batchplayer.ToList().Add(new PlayerModel()
-                    {
-                        PlayerId = attplay.play.PK_PlayerId,
-                        FirstName = attplay.play.FirstName,
-                        LastName = attplay.play.LastName,
-                        Email = attplay.play.Email,
-                        Mobile = attplay.play.Mobile,
-                    });
-                }
-            });
-            return Ok(batchplayer);
-        }
+        //[HttpGet]
+        //[Authorize]
+        //[Route("api/Player/Attendance")]
+        //// GET api/values
+        //public IHttpActionResult GetPlayerForAttendance(int venueid, int sportid, int courtid, int batchid)
+        //{
+        //    var batchplayer = GetPlayer(venueid, sportid, courtid, batchid);
+        //    var attendanceplayer = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).GroupBy(x => x.FK_PlayerId).Select(p => p.First())
+        //                        .Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
+        //    attendanceplayer.ToList().ForEach(attplay =>
+        //    {
+        //        if (batchplayer.Where(x => x.PlayerId == attplay.play.PK_PlayerId).Count() <= 0)
+        //        {
+        //            batchplayer.ToList().Add(new PlayerModel()
+        //            {
+        //                PlayerId = attplay.play.PK_PlayerId,
+        //                FirstName = attplay.play.FirstName,
+        //                LastName = attplay.play.LastName,
+        //                Email = attplay.play.Email,
+        //                Mobile = attplay.play.Mobile,
+        //            });
+        //        }
+        //    });
+        //    return Ok(batchplayer);
+        //}
 
         [HttpGet]
         [Authorize]

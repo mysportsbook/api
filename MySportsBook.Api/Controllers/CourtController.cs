@@ -28,10 +28,18 @@ namespace MySportsBook.Api.Controllers
             return GetResult(venueid, sportid);
         }
 
-        [NonAction]
-        public IHttpActionResult GetResult(int venueid, int sportid = 0)
+        [HttpGet]
+        [Authorize]
+        public IHttpActionResult Get(int venueid, int sportid, int courtid)
         {
-            return Ok(dbContext.Master_Court.Where(c => c.FK_VenueId == venueid && c.FK_SportId == (sportid != 0 ? sportid : c.FK_SportId) && c.FK_StatusId == 1)
+
+            return GetResult(venueid, sportid, courtid);
+        }
+
+        [NonAction]
+        public IHttpActionResult GetResult(int venueid, int sportid = 0, int courtid = 0)
+        {
+            return Ok(dbContext.Master_Court.Where(c => c.FK_VenueId == venueid && c.FK_SportId == (sportid != 0 ? sportid : c.FK_SportId) && c.FK_StatusId == 1 && c.PK_CourtId == (courtid != 0 ? courtid : c.PK_CourtId))
                      .Join(dbContext.Master_Sport.Where(x => x.FK_VenueId == venueid && x.FK_StatusId == 1), court => court.FK_SportId, sport => sport.PK_SportId, (court, sport) => new { court, sport })
                      .Join(dbContext.Master_Venue.Where(v => v.FK_StatusId == 1), couspo => couspo.sport.FK_VenueId, venue => venue.PK_VenueId, (couspo, venue) => new { couspo, venue })
                      .Select(c =>

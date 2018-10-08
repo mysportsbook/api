@@ -11,25 +11,27 @@ namespace MySportsBookModel
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public partial class Enquiry
+    
+    public partial class Master_Enquiry
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Enquiry()
+        public Master_Enquiry()
         {
-            this.Enquiry_Comments = new HashSet<Enquiry_Comments>();
+            this.Transaction_Enquiry_Comments = new HashSet<Transaction_Enquiry_Comments>();
         }
     
-        public int Id { get; set; }
+        public int PK_EnquiryId { get; set; }
+        public int FK_VenueId { get; set; }
         public string Name { get; set; }
+        public string Mobile { get; set; }
         public string Game { get; set; }
         public string Slot { get; set; }
+        public string Comments { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
-
-        [NotMapped]
+    
+        public virtual Master_Venue Master_Venue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Enquiry_Comments> Enquiry_Comments { get; set; }
+        public virtual ICollection<Transaction_Enquiry_Comments> Transaction_Enquiry_Comments { get; set; }
     }
 }

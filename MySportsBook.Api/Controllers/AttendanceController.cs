@@ -143,30 +143,31 @@ namespace MySportsBook.Api.Controllers
                              Present = (a.attend != null ? a.attend.Present : default(bool)),
                              Date = (a.attend != null ? a.attend.Date : default(DateTime))
                          });
-            //Add the player from other batch
+            
             var attendance = _allattendance.ToList();
-            var _transattendance = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).ToList().GroupBy(x => x.FK_PlayerId).Select(p => p.First());
-            var _attendance = _transattendance.Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
-            if (_attendance != null)
-            {
-                _attendance.ToList().ForEach(att =>
-                {
-                    if (_allattendance.Where(a => a.PlayerId == att.att.FK_PlayerId).Count() <= 0)
-                    {
-                        attendance.Add(new AttendanceModel()
-                        {
-                            PlayerId = att.att.FK_PlayerId,
-                            AttendanceId = att.att.PK_AttendanceId,
-                            Present = dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId) != null ? dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId).Present : false,
-                            Date = date,
-                            FirstName = att.play.FirstName,
-                            LastName = att.play.LastName,
-                            Email = att.play.Email,
-                            Mobile = att.play.Mobile,
-                        });
-                    }
-                });
-            }
+            //Add the player from other batch
+            //var _transattendance = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).ToList().GroupBy(x => x.FK_PlayerId).Select(p => p.First());
+            //var _attendance = _transattendance.Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
+            //if (_attendance != null)
+            //{
+            //    _attendance.ToList().ForEach(att =>
+            //    {
+            //        if (_allattendance.Where(a => a.PlayerId == att.att.FK_PlayerId).Count() <= 0)
+            //        {
+            //            attendance.Add(new AttendanceModel()
+            //            {
+            //                PlayerId = att.att.FK_PlayerId,
+            //                AttendanceId = att.att.PK_AttendanceId,
+            //                Present = dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId) != null ? dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId).Present : false,
+            //                Date = date,
+            //                FirstName = att.play.FirstName,
+            //                LastName = att.play.LastName,
+            //                Email = att.play.Email,
+            //                Mobile = att.play.Mobile,
+            //            });
+            //        }
+            //    });
+            //}
 
             return Ok(attendance);
         }

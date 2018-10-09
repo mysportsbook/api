@@ -37,6 +37,8 @@ namespace MySportsBook.Api.Controllers
             if (enquiryModel.EnquiryId == 0)
             {
                 _enquiry = new Master_Enquiry() { FK_VenueId = enquiryModel.VenueId, Game = enquiryModel.Game, Mobile = enquiryModel.Mobile, Name = enquiryModel.Name, Slot = enquiryModel.Slot, Comments = enquiryModel.Comment };
+                _enquiry.CreatedBy = CurrentUser.PK_UserId;
+                _enquiry.CreatedDate = DateTime.Now.ToUniversalTime();
                 dbContext.Master_Enquiry.Add(_enquiry);
             }
             else
@@ -48,24 +50,28 @@ namespace MySportsBook.Api.Controllers
                     _enquiry.Game = enquiryModel.Game;
                     _enquiry.Mobile = enquiryModel.Mobile;
                     _enquiry.Slot = enquiryModel.Slot;
+                    //_enquiry.ModifiedBy = CurrentUser.PK_UserId;
+                    //_enquiry.ModifiedDate = DateTime.Now.ToUniversalTime();
                     dbContext.Entry(_enquiry).State = EntityState.Modified;
                 }
             }
             dbContext.SaveChanges();
-            enquiryModel.Comments.ToList().ForEach(c =>
+            if (enquiryModel.Comments != null && enquiryModel.Comments.Any())
             {
-                dbContext.Transaction_Enquiry_Comments.Add(new Transaction_Enquiry_Comments()
+                enquiryModel.Comments.ToList().ForEach(c =>
                 {
-                    Comments = c,
-                    FK_EnquiryId = _enquiry.PK_EnquiryId,
-                    CreatedBy = CurrentUser.PK_UserId,
-                    CreatedDate = DateTime.Now.ToUniversalTime()
+                    dbContext.Transaction_Enquiry_Comments.Add(new Transaction_Enquiry_Comments()
+                    {
+                        Comments = c,
+                        FK_EnquiryId = _enquiry.PK_EnquiryId,
+                        CreatedBy = CurrentUser.PK_UserId,
+                        CreatedDate = DateTime.Now.ToUniversalTime()
+                    });
                 });
-            });
 
-            dbContext.SaveChanges();
-
-            return Ok(_enquiry);
+                dbContext.SaveChanges();
+            }
+            return Ok(enquiryModel);
         }
 
         [NonAction]
@@ -87,7 +93,7 @@ namespace MySportsBook.Api.Controllers
 
             enquiryModel.ForEach(x =>
             {
-                var _item = dbContext.Transaction_Enquiry_Comments.Where(c => c.FK_EnquiryId == x.EnquiryId).OrderByDescending(o => o.CreatedDate).AsEnumerable().Select(com =>  $"{com.CreatedDate.ToString("dd/MM/yyyy")} - {com.Comments.ToString()}".ToString()).ToList();
+                var _item = dbContext.Transaction_Enquiry_Comments.Where(c => c.FK_EnquiryId == x.EnquiryId).OrderByDescending(o => o.CreatedDate).AsEnumerable().Select(com => $"{com.CreatedDate.ToString("dd/MM/yyyy")} - {com.Comments.ToString()}".ToString()).ToList();
                 if (_item != null)
                 {
                     x.Comments = new List<string>();

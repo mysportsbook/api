@@ -67,25 +67,34 @@ namespace MySportsBook.Api.Controllers
         public IHttpActionResult Post(List<AttendanceModel> attendanceModel)
         {
             List<Transaction_Attendance> attendanceModels = new List<Transaction_Attendance>();
-            attendanceModel.ForEach(a =>
+            if (attendanceModel.Count == 1 && attendanceModel[0].PlayerId == 0)
             {
-                attendanceModels.Add(new Transaction_Attendance()
+                var attendance = attendanceModel[0];
+                dbContext.Transaction_Attendance.RemoveRange(dbContext.Transaction_Attendance.Where(x => x.FK_VenueId == attendance.VenueId && x.FK_BatchId == attendance.BatchId && x.Date == attendance.Date).AsEnumerable());
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                attendanceModel.ForEach(a =>
                 {
-                    FK_VenueId = a.VenueId,
-                    FK_PlayerId = a.PlayerId,
-                    FK_BatchId = a.BatchId,
-                    Date = a.Date.Value,
-                    Present = true,
-                    CreatedBy = CurrentUser.PK_UserId,
-                    CreatedDate = DateTime.Now.ToUniversalTime()
+                    attendanceModels.Add(new Transaction_Attendance()
+                    {
+                        FK_VenueId = a.VenueId,
+                        FK_PlayerId = a.PlayerId,
+                        FK_BatchId = a.BatchId,
+                        Date = a.Date.Value,
+                        Present = true,
+                        CreatedBy = CurrentUser.PK_UserId,
+                        CreatedDate = DateTime.Now.ToUniversalTime()
 
+                    });
                 });
-            });
-            var model = attendanceModel.FirstOrDefault();
-            dbContext.Transaction_Attendance.RemoveRange(dbContext.Transaction_Attendance.Where(x => x.FK_VenueId == model.VenueId && x.FK_BatchId == model.BatchId && x.Date == model.Date).AsEnumerable());
-            dbContext.SaveChanges();
-            dbContext.Transaction_Attendance.AddRange(attendanceModels);
-            dbContext.SaveChanges();
+                var model = attendanceModel.FirstOrDefault();
+                dbContext.Transaction_Attendance.RemoveRange(dbContext.Transaction_Attendance.Where(x => x.FK_VenueId == model.VenueId && x.FK_BatchId == model.BatchId && x.Date == model.Date).AsEnumerable());
+                dbContext.SaveChanges();
+                dbContext.Transaction_Attendance.AddRange(attendanceModels);
+                dbContext.SaveChanges();
+            }
             return Ok(attendanceModels);
         }
 
@@ -93,7 +102,7 @@ namespace MySportsBook.Api.Controllers
         public IHttpActionResult GetResult(int venueid, int sportid = 0, int courtid = 0, int batchid = 0, int playerid = 0, DateTime? date = null)
         {
             //Get the attendance for the particular batch
-            var allattendance = dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1 && p.PK_PlayerId == (playerid != 0 ? playerid : p.PK_PlayerId))
+            var _allattendance = dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1 && p.PK_PlayerId == (playerid != 0 ? playerid : p.PK_PlayerId))
                        .Join(dbContext.Transaction_PlayerSport.Where(ps => ps.FK_StatusId == 1), player => player.PK_PlayerId, playsport => playsport.FK_PlayerId, (player, playsport) => new { player, playsport })
                        .Join(dbContext.Master_Batch.Where(b => b.FK_StatusId == 1 && b.PK_BatchId == (batchid != 0 ? batchid : b.PK_BatchId)), playersport => playersport.playsport.FK_BatchId, batch => batch.PK_BatchId, (playersport, batch) => new { playersport, batch })
                        .Join(dbContext.Master_Court.Where(c => c.FK_StatusId == 1 && c.PK_CourtId == (courtid != 0 ? courtid : c.PK_CourtId)), playspobat => playspobat.batch.FK_CourtId, court => court.PK_CourtId, (playspobat, court) => new { playspobat, court })
@@ -135,16 +144,16 @@ namespace MySportsBook.Api.Controllers
                              Date = (a.attend != null ? a.attend.Date : default(DateTime))
                          });
             //Add the player from other batch
-            var transattendance = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).ToList().GroupBy(x => x.FK_PlayerId).Select(p => p.First());
-
-            var attendance = transattendance.Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
-            if (attendance != null)
+            var attendance = _allattendance.ToList();
+            var _transattendance = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).ToList().GroupBy(x => x.FK_PlayerId).Select(p => p.First());
+            var _attendance = _transattendance.Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
+            if (_attendance != null)
             {
-                attendance.ToList().ForEach(att =>
+                _attendance.ToList().ForEach(att =>
                 {
-                    if (allattendance.Where(a => a.PlayerId == att.att.FK_PlayerId).Count() <= 0)
+                    if (_allattendance.Where(a => a.PlayerId == att.att.FK_PlayerId).Count() <= 0)
                     {
-                        allattendance.ToList().Add(new AttendanceModel()
+                        attendance.Add(new AttendanceModel()
                         {
                             PlayerId = att.att.FK_PlayerId,
                             AttendanceId = att.att.PK_AttendanceId,
@@ -159,7 +168,7 @@ namespace MySportsBook.Api.Controllers
                 });
             }
 
-            return Ok(allattendance);
+            return Ok(attendance);
         }
     }
 }

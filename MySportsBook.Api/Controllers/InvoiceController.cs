@@ -187,6 +187,7 @@ namespace MySportsBook.Api.Controllers
                         CreatedBy = CurrentUser.PK_UserId
                     });
                     dbContext.SaveChanges();
+
                 }
             }
         }
@@ -198,9 +199,37 @@ namespace MySportsBook.Api.Controllers
         }
 
         [NonAction]
-        public void Close(InvoiceDetailsModel detailsModel)
+        public void Close(InvoiceModel invoice)
         {
-
+            var _transInvoice = new Transaction_Invoice()
+            {
+                FK_VenueId = invoice.VenueId,
+                FK_PlayerId = invoice.PlayerId,
+                FK_StatusId = 4,
+                InvoiceDate = invoice.InvoiceDate,
+                InvoiceNumber = GenerateInvoiceNo(),
+                DueDate = invoice.InvoiceDate,
+                TotalFee = (decimal)invoice.TotalFee,
+                TotalDiscount = (decimal)invoice.TotalDiscount,
+                LateFee = (decimal)invoice.LateFee,
+                PaidAmount = (decimal)invoice.PaidAmount,
+                Comments = invoice.Comments,
+                CreatedBy = CurrentUser.PK_UserId,
+            };
+            dbContext.Transaction_Invoice.Add(_transInvoice);
+            dbContext.SaveChanges();
+            invoice.invoiceDetails.ForEach(d =>
+            {
+                dbContext.Transaction_InvoiceDetail.Add(new Transaction_InvoiceDetail()
+                {
+                    FK_BatchId = d.BatchId,
+                    FK_InvoiceId = _transInvoice.PK_InvoiceId,
+                    FK_StatusId = 4,
+                    Amount = (decimal)d.Fee,
+                    InvoicePeriod = d.InvoicePeriod,
+                    CreatedBy = CurrentUser.PK_UserId
+                });
+            });
         }
     }
 }

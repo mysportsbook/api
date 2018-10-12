@@ -47,7 +47,7 @@ namespace MySportsBook.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        // GET api/attendance
+        // GET api/attendance vcf
         public IHttpActionResult Get(int venueid, int sportid, int courtid, int batchid, int playerid)
         {
             return GetResult(venueid, sportid, courtid, batchid, playerid);

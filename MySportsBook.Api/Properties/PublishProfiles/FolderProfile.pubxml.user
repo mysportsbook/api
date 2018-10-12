@@ -133,10 +133,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2012 11:08:46</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.dll">
-      <publishTime>10/08/2018 18:38:56</publishTime>
+      <publishTime>10/09/2018 20:13:13</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.pdb">
-      <publishTime>10/08/2018 18:38:56</publishTime>
+      <publishTime>10/09/2018 20:13:13</publishTime>
     </File>
     <File Include="bin/MySportsBook.Common.dll">
       <publishTime>09/28/2018 01:49:26</publishTime>

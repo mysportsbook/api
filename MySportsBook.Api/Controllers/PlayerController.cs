@@ -9,71 +9,47 @@ using System.Web.Http;
 
 namespace MySportsBook.Api.Controllers
 {
-    [RoutePrefix("api/player")]
     public class PlayerController : BaseController
     {
 
         [HttpGet]
         [Authorize]
-        // GET api/values
+        // GET api/player
         public IHttpActionResult Get(int venueid)
         {
-            return GetResult(venueid);
+            return Get(venueid, 0);
         }
 
         [HttpGet]
         [Authorize]
-        // GET api/values
+        // GET api/player
         public IHttpActionResult Get(int venueid, int sportid)
         {
-            return GetResult(venueid, sportid);
+            return Get(venueid, sportid, 0);
         }
 
         [HttpGet]
         [Authorize]
-        // GET api/values
+        // GET api/player
         public IHttpActionResult Get(int venueid, int sportid, int courtid)
         {
-            return GetResult(venueid, sportid, courtid);
+            var _result = GetPlayer(venueid, sportid, courtid).ToList().GroupBy(g => g.PlayerId).Select(p => p.First());
+            return Ok(_result);
         }
 
         [HttpGet]
         [Authorize]
-        // GET api/values
+        // GET api/player
         public IHttpActionResult Get(int venueid, int sportid, int courtid, int batchid)
         {
             return GetResult(venueid, sportid, courtid, batchid);
         }
 
-        //[HttpGet]
-        //[Authorize]
-        //[Route("api/Player/Attendance")]
-        //// GET api/values
-        //public IHttpActionResult GetPlayerForAttendance(int venueid, int sportid, int courtid, int batchid)
-        //{
-        //    var batchplayer = GetPlayer(venueid, sportid, courtid, batchid);
-        //    var attendanceplayer = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid).GroupBy(x => x.FK_PlayerId).Select(p => p.First())
-        //                        .Join(dbContext.Master_Player.Where(p => p.FK_VenueId == venueid && p.FK_StatusId == 1), att => att.FK_PlayerId, play => play.PK_PlayerId, (att, play) => new { att, play });
-        //    attendanceplayer.ToList().ForEach(attplay =>
-        //    {
-        //        if (batchplayer.Where(x => x.PlayerId == attplay.play.PK_PlayerId).Count() <= 0)
-        //        {
-        //            batchplayer.ToList().Add(new PlayerModel()
-        //            {
-        //                PlayerId = attplay.play.PK_PlayerId,
-        //                FirstName = attplay.play.FirstName,
-        //                LastName = attplay.play.LastName,
-        //                Email = attplay.play.Email,
-        //                Mobile = attplay.play.Mobile,
-        //            });
-        //        }
-        //    });
-        //    return Ok(batchplayer);
-        //}
+
 
         [HttpGet]
         [Authorize]
-        // GET api/values
+        // GET api/player
         public IHttpActionResult Get(int venueid, int sportid, int courtid, int batchid, int playerid)
         {
             return GetResult(venueid, sportid, courtid, batchid, playerid);
@@ -117,7 +93,8 @@ namespace MySportsBook.Api.Controllers
                               LastName = p.playspobatcou.playspobatcou.playspobat.playersport.player.LastName,
                               Email = p.playspobatcou.playspobatcou.playspobat.playersport.player.Email,
                               Mobile = p.playspobatcou.playspobatcou.playspobat.playersport.player.Mobile,
-                              PlayerSportId = p.playspobatcou.playspobatcou.playspobat.playersport.playsport.PK_PlayerSportId
+                              PlayerSportId = p.playspobatcou.playspobatcou.playspobat.playersport.playsport.PK_PlayerSportId,
+                              IsAttendanceRequired = p.playspobatcou.playspobatcou.playspobat.batch.IsAttendanceRequired
                           });
         }
 

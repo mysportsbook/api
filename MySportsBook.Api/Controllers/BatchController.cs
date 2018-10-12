@@ -79,7 +79,8 @@ namespace MySportsBook.Api.Controllers
                                  StartTime = b.batcouspo.batcou.batch.StartTime,
                                  EndTime = b.batcouspo.batcou.batch.EndTime,
                                  MaxPlayer = b.batcouspo.batcou.batch.MaxPlayers,
-                                 PlayerCount = dbContext.Transaction_PlayerSport.Where(s => s.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId && s.FK_StatusId == 1).Count()
+                                 PlayerCount = dbContext.Transaction_PlayerSport.Where(s => s.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId && s.FK_StatusId == 1).Count(),
+                                 IsAttendanceRequired = b.batcouspo.batcou.batch.IsAttendanceRequired
                              }));
         }
 

@@ -27,6 +27,12 @@ namespace MySportsBook.Api.Controllers
             }
         }
 
+        public string GenerateInvoiceNo()
+        {
+            Random rnd = new Random();
+            return rnd.Next(1, 6).ToString();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

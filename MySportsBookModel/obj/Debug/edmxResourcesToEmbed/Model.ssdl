@@ -113,6 +113,7 @@
     <Property Name="ModifiedBy" Type="int" />
     <Property Name="ModifiedDate" Type="datetime" />
     <Property Name="Count" Type="int" />
+    <Property Name="IsAttendanceRequired" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Master_CoachingLevel">
     <Key>

@@ -50,8 +50,6 @@ namespace MySportsBook.Api.Controllers
                     _enquiry.Game = enquiryModel.Game;
                     _enquiry.Mobile = enquiryModel.Mobile;
                     _enquiry.Slot = enquiryModel.Slot;
-                    //_enquiry.ModifiedBy = CurrentUser.PK_UserId;
-                    //_enquiry.ModifiedDate = DateTime.Now.ToUniversalTime();
                     dbContext.Entry(_enquiry).State = EntityState.Modified;
                 }
             }

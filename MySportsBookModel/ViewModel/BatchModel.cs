@@ -15,5 +15,6 @@ namespace MySportsBookModel.ViewModel
         public TimeSpan EndTime { get; set; }
         public int PlayerCount { get; set; }
         public int MaxPlayer { get; set; }
+        public bool IsAttendanceRequired { get; set; }
     }
 }

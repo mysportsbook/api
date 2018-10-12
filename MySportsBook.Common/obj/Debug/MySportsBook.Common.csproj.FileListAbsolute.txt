@@ -11,6 +11,7 @@ E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySpor
 E:\DotNet\MySportsBook\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.pdb
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\bin\Debug\MySportsBook.Common.pdb
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csprojResolveAssemblyReference.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.csproj.CoreCompileInputs.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Debug\MySportsBook.Common.pdb

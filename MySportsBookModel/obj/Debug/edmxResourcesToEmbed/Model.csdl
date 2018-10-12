@@ -587,6 +587,7 @@
     <NavigationProperty Name="Transaction_Attendance" Relationship="MySportsBookModel.FK_Transaction_Attendance_Master_Batch" FromRole="Master_Batch" ToRole="Transaction_Attendance" />
     <NavigationProperty Name="Transaction_InvoiceDetail" Relationship="MySportsBookModel.FK_Transaction_InvoiceDetail_Master_Batch" FromRole="Master_Batch" ToRole="Transaction_InvoiceDetail" />
     <NavigationProperty Name="Transaction_PlayerSport" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Master_Batch" FromRole="Master_Batch" ToRole="Transaction_PlayerSport" />
+    <Property Name="IsAttendanceRequired" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Master_CoachingLevel">
     <Key>

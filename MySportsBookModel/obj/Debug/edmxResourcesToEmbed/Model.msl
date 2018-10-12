@@ -96,6 +96,7 @@
     <EntitySetMapping Name="Master_Batch">
       <EntityTypeMapping TypeName="MySportsBookModel.Master_Batch">
         <MappingFragment StoreEntitySet="Master_Batch">
+          <ScalarProperty Name="IsAttendanceRequired" ColumnName="IsAttendanceRequired" />
           <ScalarProperty Name="Count" ColumnName="Count" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

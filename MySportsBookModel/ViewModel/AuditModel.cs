@@ -9,7 +9,7 @@ namespace MySportsBookModel.ViewModel
     public class AuditModel
     {
         public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get { return DateTime.Now.ToUniversalTime(); } }
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }

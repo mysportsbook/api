@@ -126,6 +126,15 @@
         <EntityTypeShape EntityType="MySportsBookModel.Transaction_Enquiry_Comments" Width="1.5" PointX="17.75" PointY="24.75" />
         <AssociationConnector Association="MySportsBookModel.FK_Enquiry_Master_Venue" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry" />
+        <EntityTypeShape EntityType="MySportsBookModel.OtherBooking" Width="1.5" PointX="23.5" PointY="37.75" />
+        <EntityTypeShape EntityType="MySportsBookModel.OtherBookingDetail" Width="1.5" PointX="25.75" PointY="37.875" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBooking_Configuration_User" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBooking_Configuration_User1" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_Configuration_User" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_Configuration_User1" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBooking_Master_Venue" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_Master_Venue" />
+        <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_OtherBooking" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

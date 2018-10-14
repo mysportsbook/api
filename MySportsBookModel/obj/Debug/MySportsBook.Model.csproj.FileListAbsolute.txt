@@ -44,3 +44,13 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Mo
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Debug\MySportsBookModel.pdb
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\MySportsBookModel.dll.config
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\MySportsBookModel.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\MySportsBookModel.pdb
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\EntityFramework.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\EntityFramework.SqlServer.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\EntityFramework.xml
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\EntityFramework.SqlServer.xml
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CoreCompileInputs.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBookModel.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBookModel.pdb

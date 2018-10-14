@@ -55,5 +55,7 @@ namespace MySportsBookModel
         public virtual DbSet<Transaction_Voucher> Transaction_Voucher { get; set; }
         public virtual DbSet<Master_Enquiry> Master_Enquiry { get; set; }
         public virtual DbSet<Transaction_Enquiry_Comments> Transaction_Enquiry_Comments { get; set; }
+        public virtual DbSet<OtherBooking> OtherBookings { get; set; }
+        public virtual DbSet<OtherBookingDetail> OtherBookingDetails { get; set; }
     }
 }

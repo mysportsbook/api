@@ -16,7 +16,6 @@ namespace MySportsBookModel.ViewModel
         public double DiscountAmount { get; set; }
         public double AmountPaid { get; set; }
         public string Description { get; set; }
-        public int PaymentId { get; set; }
         public string PaymentMode { get; set; }
         public string TransactionNumber { get; set; }
     }

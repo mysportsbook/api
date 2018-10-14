@@ -283,6 +283,39 @@
     <Property Name="ModifiedBy" Type="int" />
     <Property Name="ModifiedDate" Type="datetime" />
   </EntityType>
+  <EntityType Name="OtherBooking">
+    <Key>
+      <PropertyRef Name="PK_BookingId" />
+    </Key>
+    <Property Name="PK_BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Mobile" Type="varchar" MaxLength="50" />
+    <Property Name="FK_VenueId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="varchar" MaxLength="50" />
+    <Property Name="Mode" Type="varchar" MaxLength="20" />
+    <Property Name="Message" Type="varchar" MaxLength="5000" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="int" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OtherBookingDetail">
+    <Key>
+      <PropertyRef Name="PK_BookingDetailId" />
+    </Key>
+    <Property Name="PK_BookingDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FK_BookingId" Type="int" Nullable="false" />
+    <Property Name="FK_VenueId" Type="int" Nullable="false" />
+    <Property Name="Court" Type="varchar" MaxLength="50" />
+    <Property Name="Date" Type="varchar" MaxLength="50" />
+    <Property Name="Slot" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="int" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
   <EntityType Name="Transaction_Attendance">
     <Key>
       <PropertyRef Name="PK_AttendanceId" />
@@ -1123,6 +1156,90 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_OtherBooking_Configuration_User">
+    <End Role="Configuration_User" Type="Self.Configuration_User" Multiplicity="1" />
+    <End Role="OtherBooking" Type="Self.OtherBooking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="OtherBooking">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBooking_Configuration_User1">
+    <End Role="Configuration_User" Type="Self.Configuration_User" Multiplicity="0..1" />
+    <End Role="OtherBooking" Type="Self.OtherBooking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="OtherBooking">
+        <PropertyRef Name="ModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBooking_Master_Venue">
+    <End Role="Master_Venue" Type="Self.Master_Venue" Multiplicity="1" />
+    <End Role="OtherBooking" Type="Self.OtherBooking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="OtherBooking">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBookingDetail_Configuration_User">
+    <End Role="Configuration_User" Type="Self.Configuration_User" Multiplicity="1" />
+    <End Role="OtherBookingDetail" Type="Self.OtherBookingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="OtherBookingDetail">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBookingDetail_Configuration_User1">
+    <End Role="Configuration_User" Type="Self.Configuration_User" Multiplicity="0..1" />
+    <End Role="OtherBookingDetail" Type="Self.OtherBookingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="OtherBookingDetail">
+        <PropertyRef Name="ModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBookingDetail_Master_Venue">
+    <End Role="Master_Venue" Type="Self.Master_Venue" Multiplicity="1" />
+    <End Role="OtherBookingDetail" Type="Self.OtherBookingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="OtherBookingDetail">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OtherBookingDetail_OtherBooking">
+    <End Role="OtherBooking" Type="Self.OtherBooking" Multiplicity="1" />
+    <End Role="OtherBookingDetail" Type="Self.OtherBookingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OtherBooking">
+        <PropertyRef Name="PK_BookingId" />
+      </Principal>
+      <Dependent Role="OtherBookingDetail">
+        <PropertyRef Name="FK_BookingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Transaction_Attendance_Master_Batch">
     <End Role="Master_Batch" Type="Self.Master_Batch" Multiplicity="1" />
     <End Role="Transaction_Attendance" Type="Self.Transaction_Attendance" Multiplicity="*" />
@@ -1541,6 +1658,8 @@
     <EntitySet Name="Master_UserRole" EntityType="Self.Master_UserRole" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_UserVenue" EntityType="Self.Master_UserVenue" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Master_Venue" EntityType="Self.Master_Venue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OtherBooking" EntityType="Self.OtherBooking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OtherBookingDetail" EntityType="Self.OtherBookingDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_Attendance" EntityType="Self.Transaction_Attendance" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_Enquiry_Comments" EntityType="Self.Transaction_Enquiry_Comments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction_Invoice" EntityType="Self.Transaction_Invoice" Schema="dbo" store:Type="Tables" />
@@ -1787,6 +1906,34 @@
     <AssociationSet Name="FK_Master_Venue_Configuration_User3" Association="Self.FK_Master_Venue_Configuration_User3">
       <End Role="Configuration_User" EntitySet="Configuration_User" />
       <End Role="Master_Venue" EntitySet="Master_Venue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBooking_Configuration_User" Association="Self.FK_OtherBooking_Configuration_User">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="OtherBooking" EntitySet="OtherBooking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBooking_Configuration_User1" Association="Self.FK_OtherBooking_Configuration_User1">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="OtherBooking" EntitySet="OtherBooking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBooking_Master_Venue" Association="Self.FK_OtherBooking_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="OtherBooking" EntitySet="OtherBooking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBookingDetail_Configuration_User" Association="Self.FK_OtherBookingDetail_Configuration_User">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="OtherBookingDetail" EntitySet="OtherBookingDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBookingDetail_Configuration_User1" Association="Self.FK_OtherBookingDetail_Configuration_User1">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="OtherBookingDetail" EntitySet="OtherBookingDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBookingDetail_Master_Venue" Association="Self.FK_OtherBookingDetail_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="OtherBookingDetail" EntitySet="OtherBookingDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBookingDetail_OtherBooking" Association="Self.FK_OtherBookingDetail_OtherBooking">
+      <End Role="OtherBooking" EntitySet="OtherBooking" />
+      <End Role="OtherBookingDetail" EntitySet="OtherBookingDetail" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_Attendance_Master_Batch" Association="Self.FK_Transaction_Attendance_Master_Batch">
       <End Role="Master_Batch" EntitySet="Master_Batch" />

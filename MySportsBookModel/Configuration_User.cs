@@ -52,6 +52,10 @@ namespace MySportsBookModel
             this.Transaction_Receipt1 = new HashSet<Transaction_Receipt>();
             this.Transaction_Voucher = new HashSet<Transaction_Voucher>();
             this.Transaction_Voucher1 = new HashSet<Transaction_Voucher>();
+            this.OtherBookings = new HashSet<OtherBooking>();
+            this.OtherBookings1 = new HashSet<OtherBooking>();
+            this.OtherBookingDetails = new HashSet<OtherBookingDetail>();
+            this.OtherBookingDetails1 = new HashSet<OtherBookingDetail>();
         }
     
         public int PK_UserId { get; set; }
@@ -139,5 +143,13 @@ namespace MySportsBookModel
         public virtual ICollection<Transaction_Voucher> Transaction_Voucher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_Voucher> Transaction_Voucher1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBooking> OtherBookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBooking> OtherBookings1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBookingDetail> OtherBookingDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBookingDetail> OtherBookingDetails1 { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace MySportsBookModel.ViewModel
     }
     public class InvoiceDetailsModel : BatchModel
     {
+        public int InvoicePeriodId { get; set; }
         public string InvoicePeriod { get; set; }
         public double Fee { get; set; }
     }

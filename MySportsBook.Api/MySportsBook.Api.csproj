@@ -210,6 +210,7 @@
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\EnquiryController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\PaymentModeController.cs" />
     <Compile Include="Controllers\PlayerAttendanceController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\SportController.cs" />

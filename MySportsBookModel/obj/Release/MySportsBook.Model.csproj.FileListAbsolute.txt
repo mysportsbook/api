@@ -33,3 +33,14 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBookModel.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBookModel.pdb
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojResolveAssemblyReference.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.dll.config
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.pdb
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\EntityFramework.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\EntityFramework.SqlServer.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\EntityFramework.xml
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\EntityFramework.SqlServer.xml
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csproj.CoreCompileInputs.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.dll
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.pdb
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojResolveAssemblyReference.cache

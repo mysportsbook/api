@@ -128,6 +128,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="OtherBooking.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OtherBookingDetail.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transaction_Attendance.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -154,9 +160,11 @@
     <Compile Include="ViewModel\AuditModel.cs" />
     <Compile Include="ViewModel\BatchCountModel.cs" />
     <Compile Include="ViewModel\BatchModel.cs" />
+    <Compile Include="ViewModel\BookingModel.cs" />
     <Compile Include="ViewModel\CourtModel.cs" />
     <Compile Include="ViewModel\EnquiryModel.cs" />
     <Compile Include="ViewModel\InvoiceModel.cs" />
+    <Compile Include="ViewModel\PaymentModeModel.cs" />
     <Compile Include="ViewModel\PlayerModel.cs" />
     <Compile Include="ViewModel\ReceiptModel.cs" />
     <Compile Include="ViewModel\SportModel.cs" />

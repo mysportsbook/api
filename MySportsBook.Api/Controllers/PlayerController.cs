@@ -33,7 +33,7 @@ namespace MySportsBook.Api.Controllers
         // GET api/player
         public IHttpActionResult Get(int venueid, int sportid, int courtid)
         {
-            var _result = GetPlayer(venueid, sportid, courtid).ToList().GroupBy(g => g.PlayerId).Select(p => p.First());
+            var _result = GetPlayer(venueid, sportid, courtid).ToList().GroupBy(g => g.PlayerId).AsEnumerable().Select(p => p.First());
             return Ok(_result);
         }
 
@@ -55,11 +55,14 @@ namespace MySportsBook.Api.Controllers
             return GetResult(venueid, sportid, courtid, batchid, playerid);
         }
 
+
+
         [NonAction]
         public IHttpActionResult GetResult(int venueid, int sportid = 0, int courtid = 0, int batchid = 0, int playerid = 0)
         {
             return Ok(GetPlayer(venueid, sportid, courtid, batchid, playerid));
         }
+
         [NonAction]
         public IQueryable<PlayerModel> GetPlayer(int venueid, int sportid = 0, int courtid = 0, int batchid = 0, int playerid = 0)
         {
@@ -97,7 +100,6 @@ namespace MySportsBook.Api.Controllers
                               IsAttendanceRequired = p.playspobatcou.playspobatcou.playspobat.batch.IsAttendanceRequired
                           });
         }
-
 
     }
 }

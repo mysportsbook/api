@@ -33,6 +33,8 @@ namespace MySportsBookModel
             this.Transaction_PlayerSport = new HashSet<Transaction_PlayerSport>();
             this.Transaction_Receipt = new HashSet<Transaction_Receipt>();
             this.Master_Enquiry = new HashSet<Master_Enquiry>();
+            this.OtherBookings = new HashSet<OtherBooking>();
+            this.OtherBookingDetails = new HashSet<OtherBookingDetail>();
         }
     
         public int PK_VenueId { get; set; }
@@ -86,5 +88,9 @@ namespace MySportsBookModel
         public virtual ICollection<Transaction_Receipt> Transaction_Receipt { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Enquiry> Master_Enquiry { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBooking> OtherBookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OtherBookingDetail> OtherBookingDetails { get; set; }
     }
 }

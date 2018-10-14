@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
 using MySportsBookModel;
+using MySportsBook.Common.Helper;
 
 namespace MySportsBook.Api.Controllers
 {
@@ -34,7 +35,10 @@ namespace MySportsBook.Api.Controllers
         // GET api/invoice
         public IHttpActionResult Post(InvoiceModel invoice)
         {
-
+            if (invoice.ShouldClose)
+                Close(invoice);
+            else
+                Save(invoice);
             return Ok(invoice);
         }
 
@@ -71,7 +75,8 @@ namespace MySportsBook.Api.Controllers
                             BatchId = batch.FK_BatchId,
                             SportName = batch.Master_Sport.SportName,
                             Fee = (double)batch.Master_Batch.Fee * _freq,
-                            InvoicePeriod = (batch.FK_InvoicePeriodId == 1 ? _listMonths[count] : _listMonths[count] + "-" + _listMonths[count + (_freq - 1)])
+                            InvoicePeriod = (batch.FK_InvoicePeriodId == 1 ? _listMonths[count] : _listMonths[count] + "-" + _listMonths[count + (_freq - 1)]),
+                            InvoicePeriodId = batch.FK_InvoicePeriodId
                         });
                     }
                 }
@@ -120,7 +125,7 @@ namespace MySportsBook.Api.Controllers
         }
 
         [NonAction]
-        public void Save(InvoiceModel invoice)
+        public IHttpActionResult Save(InvoiceModel invoice)
         {
             var _playerinvoice = dbContext.Transaction_Invoice.Where(inv => inv.FK_StatusId.Equals(3) && inv.FK_VenueId == invoice.VenueId && inv.FK_PlayerId == invoice.PlayerId)
                    .Join(dbContext.Transaction_InvoiceDetail.Where(detail => detail.FK_StatusId.Equals(3)), inv => inv.PK_InvoiceId, detail => detail.FK_InvoiceId, (inv, detail) => new { inv, detail }).ToList();
@@ -139,20 +144,26 @@ namespace MySportsBook.Api.Controllers
                     Update(invoice);
                 else
                 {
+                    foreach (var item in invoice.invoiceDetails)
+                    {
+                        if (!CheckforPreviousInvoice(invoice.PlayerId, item.BatchId, item.InvoicePeriod, item.InvoicePeriodId))
+                            return Ok("Frist pay pending invoice for previous month");
+                    }
                     var _transInvoice = new Transaction_Invoice()
                     {
                         FK_VenueId = invoice.VenueId,
                         FK_PlayerId = invoice.PlayerId,
-                        FK_StatusId = 4,
-                        InvoiceDate = invoice.InvoiceDate,
-                        InvoiceNumber = GenerateInvoiceNo(),
-                        DueDate = invoice.InvoiceDate,
+                        FK_StatusId = ((invoice.TotalFee + invoice.LateFee - invoice.TotalDiscount) <= invoice.PaidAmount) ? 4 : 3,
+                        InvoiceDate = DateTime.Now.ToUniversalTime(),
+                        InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
+                        DueDate = DateTime.Now.AddDays(10).ToUniversalTime(),
                         TotalFee = (decimal)invoice.TotalFee,
                         TotalDiscount = (decimal)invoice.TotalDiscount,
                         LateFee = (decimal)invoice.LateFee,
                         PaidAmount = (decimal)invoice.PaidAmount,
                         Comments = invoice.Comments,
                         CreatedBy = CurrentUser.PK_UserId,
+                        CreatedDate = DateTime.Now.ToUniversalTime()
                     };
                     dbContext.Transaction_Invoice.Add(_transInvoice);
                     dbContext.SaveChanges();
@@ -162,18 +173,28 @@ namespace MySportsBook.Api.Controllers
                         {
                             FK_BatchId = d.BatchId,
                             FK_InvoiceId = _transInvoice.PK_InvoiceId,
-                            FK_StatusId = 4,
+                            FK_StatusId = 1,
                             Amount = (decimal)d.Fee,
                             InvoicePeriod = d.InvoicePeriod,
-                            CreatedBy = CurrentUser.PK_UserId
+                            CreatedBy = CurrentUser.PK_UserId,
+                            CreatedDate = DateTime.Now.ToUniversalTime()
                         });
+                        var _playersport = dbContext.Transaction_PlayerSport.Where(s => s.FK_PlayerId == invoice.PlayerId && s.FK_BatchId == d.BatchId).FirstOrDefault();
+                        if (_playersport != null)
+                        {
+                            _playersport.LastGeneratedMonth = d.InvoicePeriod.Split('-').Count() > 0 ? d.InvoicePeriod.Split('-')[1].ToString() : d.InvoicePeriod;
+                            _playersport.ModifiedBy = CurrentUser.PK_UserId;
+                            _playersport.ModifiedDate = DateTime.Now.ToUniversalTime();
+                            dbContext.Entry(_playersport).State = EntityState.Modified;
+                        }
                     });
+                    dbContext.SaveChanges();
                     //Generate Receipt
                     var _invoice = dbContext.Transaction_Invoice.Find(_transInvoice.PK_InvoiceId);
                     dbContext.Transaction_Receipt.Add(new Transaction_Receipt()
                     {
                         PK_ReceiptId = 0,
-                        ReceiptNumber = GenerateInvoiceNo(),
+                        ReceiptNumber = NumberGenerateHelper.GenerateInvoiceNo(),
                         ReceiptDate = DateTime.Now.ToUniversalTime(),
                         AmountTobePaid = _invoice.TotalFee,
                         OtherAmount = _invoice.LateFee,
@@ -184,12 +205,15 @@ namespace MySportsBook.Api.Controllers
                         FK_StatusId = 1,
                         FK_VenueId = invoice.VenueId,
                         Description = invoice.Comments,
-                        CreatedBy = CurrentUser.PK_UserId
+                        CreatedBy = CurrentUser.PK_UserId,
+                        CreatedDate = DateTime.Now.ToUniversalTime()
                     });
                     dbContext.SaveChanges();
-
+                    return Ok(_invoice);
                 }
+                return Ok(invoice);
             }
+            return Ok("Nothing to save");
         }
 
         [NonAction]
@@ -207,7 +231,7 @@ namespace MySportsBook.Api.Controllers
                 FK_PlayerId = invoice.PlayerId,
                 FK_StatusId = 4,
                 InvoiceDate = invoice.InvoiceDate,
-                InvoiceNumber = GenerateInvoiceNo(),
+                InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
                 DueDate = invoice.InvoiceDate,
                 TotalFee = (decimal)invoice.TotalFee,
                 TotalDiscount = (decimal)invoice.TotalDiscount,
@@ -230,6 +254,23 @@ namespace MySportsBook.Api.Controllers
                     CreatedBy = CurrentUser.PK_UserId
                 });
             });
+        }
+
+        [NonAction]
+        public bool CheckforPreviousInvoice(int playerid, int batchid, string invperiod, int invperiodid)
+        {
+            //TODO:Need to check if all the previous invoice are generated
+            var _playersport = dbContext.Transaction_PlayerSport.Where(s => s.FK_PlayerId == playerid && s.FK_BatchId == batchid).FirstOrDefault();
+            if (invperiodid == 1)
+            {
+                var _currdate = DateTime.ParseExact(invperiod, "MMMyyyy", CultureInfo.CurrentCulture).AddMonths(-1);
+                if (dbContext.Transaction_Invoice.Where(i => i.FK_PlayerId == playerid && i.FK_StatusId == 1)
+                    .Join(dbContext.Transaction_InvoiceDetail.Where(d => d.InvoicePeriod == _currdate.ToString("MMMyyyy")), invoice => invoice.PK_InvoiceId, details => details.FK_InvoiceId, (invoice, details) => new { invoice, details })
+                    .Any())
+                    return true;
+            }
+           
+            return true;
         }
     }
 }

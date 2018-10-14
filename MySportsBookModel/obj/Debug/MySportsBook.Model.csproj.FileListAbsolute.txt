@@ -54,3 +54,4 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Debug\EntityFramework.Sq
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBook.Model.csproj.CoreCompileInputs.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBookModel.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBookModel.pdb
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Debug\MySportsBook.Model.csprojResolveAssemblyReference.cache

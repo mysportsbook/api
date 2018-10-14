@@ -374,6 +374,7 @@
           <Property Name="FK_BatchId" Type="int" Nullable="false" />
           <Property Name="InvoicePeriod" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="FK_StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -2996,6 +2997,7 @@
           <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Transaction_InvoiceDetail_Configuration_User1" FromRole="Transaction_InvoiceDetail" ToRole="Configuration_User" />
           <NavigationProperty Name="Master_Batch" Relationship="MySportsBookModel.FK_Transaction_InvoiceDetail_Master_Batch" FromRole="Transaction_InvoiceDetail" ToRole="Master_Batch" />
           <NavigationProperty Name="Transaction_Invoice" Relationship="MySportsBookModel.FK_Transaction_InvoiceDetail_Transaction_Invoice" FromRole="Transaction_InvoiceDetail" ToRole="Transaction_Invoice" />
+          <Property Name="Comments" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Transaction_PlayerSport">
           <Key>
@@ -4679,6 +4681,7 @@
           <EntitySetMapping Name="Transaction_InvoiceDetail">
             <EntityTypeMapping TypeName="MySportsBookModel.Transaction_InvoiceDetail">
               <MappingFragment StoreEntitySet="Transaction_InvoiceDetail">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

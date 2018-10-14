@@ -329,6 +329,7 @@
     <EntitySetMapping Name="Transaction_InvoiceDetail">
       <EntityTypeMapping TypeName="MySportsBookModel.Transaction_InvoiceDetail">
         <MappingFragment StoreEntitySet="Transaction_InvoiceDetail">
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
           <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

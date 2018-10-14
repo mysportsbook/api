@@ -20,6 +20,7 @@ namespace MySportsBook.Api
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new MessageLoggingHandler());
         }
     }
 }

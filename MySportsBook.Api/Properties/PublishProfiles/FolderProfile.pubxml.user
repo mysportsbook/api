@@ -133,25 +133,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/13/2018 12:53:50</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.dll">
-      <publishTime>10/14/2018 05:36:59</publishTime>
+      <publishTime>10/14/2018 19:32:21</publishTime>
     </File>
     <File Include="bin/MySportsBook.Api.pdb">
-      <publishTime>10/14/2018 05:36:59</publishTime>
+      <publishTime>10/14/2018 19:32:21</publishTime>
     </File>
     <File Include="bin/MySportsBook.Common.dll">
-      <publishTime>10/14/2018 05:36:53</publishTime>
+      <publishTime>10/14/2018 19:32:16</publishTime>
     </File>
     <File Include="bin/MySportsBook.Common.pdb">
-      <publishTime>10/14/2018 05:36:53</publishTime>
+      <publishTime>10/14/2018 19:32:16</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.dll">
-      <publishTime>10/14/2018 05:36:54</publishTime>
+      <publishTime>10/14/2018 16:53:31</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.dll.config">
       <publishTime>10/13/2018 12:53:47</publishTime>
     </File>
     <File Include="bin/MySportsBookModel.pdb">
-      <publishTime>10/14/2018 05:36:54</publishTime>
+      <publishTime>10/14/2018 16:53:31</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>10/13/2018 12:53:50</publishTime>
@@ -299,6 +299,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Global.asax">
       <publishTime>10/13/2018 12:53:44</publishTime>
+    </File>
+    <File Include="Log/log.txt">
+      <publishTime>10/14/2018 19:27:07</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>10/13/2018 12:53:44</publishTime>

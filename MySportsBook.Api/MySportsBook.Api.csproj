@@ -214,6 +214,7 @@
     <Compile Include="Controllers\PlayerAttendanceController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\SportController.cs" />
+    <Compile Include="MessageHandler.cs" />
     <Compile Include="Owin-Authentication\AuthorizationServerProvider.cs" />
     <Compile Include="Owin-Authentication\AuthorizeAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -235,6 +236,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Log\log.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

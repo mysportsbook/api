@@ -38,8 +38,8 @@ namespace MySportsBook.Api.Controllers
             if (invoice.ShouldClose)
                 Close(invoice);
             else
-                Save(invoice);
-            return Ok(invoice);
+                return Save(invoice);
+            return Ok("Error");
         }
 
         [NonAction]
@@ -167,28 +167,16 @@ namespace MySportsBook.Api.Controllers
                     };
                     dbContext.Transaction_Invoice.Add(_transInvoice);
                     dbContext.SaveChanges();
+                    invoice.InvoiceId = _transInvoice.PK_InvoiceId;
                     invoice.invoiceDetails.ForEach(d =>
                     {
-                        dbContext.Transaction_InvoiceDetail.Add(new Transaction_InvoiceDetail()
-                        {
-                            FK_BatchId = d.BatchId,
-                            FK_InvoiceId = _transInvoice.PK_InvoiceId,
-                            FK_StatusId = 1,
-                            Amount = (decimal)d.Fee,
-                            InvoicePeriod = d.InvoicePeriod,
-                            CreatedBy = CurrentUser.PK_UserId,
-                            CreatedDate = DateTime.Now.ToUniversalTime()
-                        });
-                        var _playersport = dbContext.Transaction_PlayerSport.Where(s => s.FK_PlayerId == invoice.PlayerId && s.FK_BatchId == d.BatchId).FirstOrDefault();
-                        if (_playersport != null)
-                        {
-                            _playersport.LastGeneratedMonth = d.InvoicePeriod.Split('-').Count() > 0 ? d.InvoicePeriod.Split('-')[1].ToString() : d.InvoicePeriod;
-                            _playersport.ModifiedBy = CurrentUser.PK_UserId;
-                            _playersport.ModifiedDate = DateTime.Now.ToUniversalTime();
-                            dbContext.Entry(_playersport).State = EntityState.Modified;
-                        }
+                        SaveDetail(_transInvoice.PK_InvoiceId, invoice.PlayerId, invoice.Comments, _transInvoice.FK_StatusId, d);
                     });
                     dbContext.SaveChanges();
+                    invoice.invoiceDetails.ForEach(d =>
+                    {
+                        UpdateLastInv(_transInvoice.PK_InvoiceId, invoice.PlayerId, d.BatchId, d.InvoicePeriod);
+                    });
                     //Generate Receipt
                     var _invoice = dbContext.Transaction_Invoice.Find(_transInvoice.PK_InvoiceId);
                     dbContext.Transaction_Receipt.Add(new Transaction_Receipt()
@@ -209,7 +197,18 @@ namespace MySportsBook.Api.Controllers
                         CreatedDate = DateTime.Now.ToUniversalTime()
                     });
                     dbContext.SaveChanges();
-                    return Ok(_invoice);
+                }
+                if (invoice.InvoiceId != 0)
+                {
+                    //if (dbContext.Transaction_InvoiceDetail.All(d => d.FK_InvoiceId == invoice.InvoiceId && d.FK_StatusId == 4) && dbContext.Transaction_InvoiceDetail.Where(d => d.FK_InvoiceId == invoice.InvoiceId && d.FK_StatusId != 3).Sum(s=>s.Amount))
+                    //{
+                    //    var _invoice = dbContext.Transaction_Invoice.Find(invoice.InvoiceId);
+                    //    _invoice.FK_StatusId = 4;
+                    //    _invoice.ModifiedBy = CurrentUser.PK_UserId;
+                    //    _invoice.ModifiedDate = DateTime.Now.ToUniversalTime();
+                    //    dbContext.Entry(_invoice).State = EntityState.Modified;
+                    //    dbContext.SaveChanges();
+                    //}
                 }
                 return Ok(invoice);
             }
@@ -219,43 +218,112 @@ namespace MySportsBook.Api.Controllers
         [NonAction]
         public void Update(InvoiceModel invoice)
         {
-
+            //TODO:UPdate the Invoice
         }
 
         [NonAction]
         public void Close(InvoiceModel invoice)
         {
-            var _transInvoice = new Transaction_Invoice()
+            if (invoice.InvoiceId == 0)
             {
-                FK_VenueId = invoice.VenueId,
-                FK_PlayerId = invoice.PlayerId,
-                FK_StatusId = 4,
-                InvoiceDate = invoice.InvoiceDate,
-                InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
-                DueDate = invoice.InvoiceDate,
-                TotalFee = (decimal)invoice.TotalFee,
-                TotalDiscount = (decimal)invoice.TotalDiscount,
-                LateFee = (decimal)invoice.LateFee,
-                PaidAmount = (decimal)invoice.PaidAmount,
-                Comments = invoice.Comments,
-                CreatedBy = CurrentUser.PK_UserId,
-            };
-            dbContext.Transaction_Invoice.Add(_transInvoice);
-            dbContext.SaveChanges();
-            invoice.invoiceDetails.ForEach(d =>
-            {
-                dbContext.Transaction_InvoiceDetail.Add(new Transaction_InvoiceDetail()
+                var _transInvoice = new Transaction_Invoice()
                 {
-                    FK_BatchId = d.BatchId,
-                    FK_InvoiceId = _transInvoice.PK_InvoiceId,
+                    FK_VenueId = invoice.VenueId,
+                    FK_PlayerId = invoice.PlayerId,
                     FK_StatusId = 4,
-                    Amount = (decimal)d.Fee,
-                    InvoicePeriod = d.InvoicePeriod,
-                    CreatedBy = CurrentUser.PK_UserId
+                    InvoiceDate = invoice.InvoiceDate,
+                    InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
+                    DueDate = invoice.InvoiceDate,
+                    TotalFee = (decimal)invoice.TotalFee,
+                    TotalDiscount = (decimal)invoice.TotalDiscount,
+                    LateFee = (decimal)invoice.LateFee,
+                    PaidAmount = (decimal)invoice.PaidAmount,
+                    Comments = invoice.Comments,
+                    CreatedBy = CurrentUser.PK_UserId,
+                };
+                dbContext.Transaction_Invoice.Add(_transInvoice);
+                dbContext.SaveChanges();
+                invoice.InvoiceId = _transInvoice.PK_InvoiceId;
+                invoice.invoiceDetails.ForEach(d =>
+                {
+                    SaveDetail(_transInvoice.PK_InvoiceId, invoice.PlayerId, invoice.Comments, 4, d);
                 });
-            });
+                dbContext.SaveChanges();
+                invoice.invoiceDetails.ForEach(d =>
+                {
+                    UpdateLastInv(_transInvoice.PK_InvoiceId, invoice.PlayerId, d.BatchId, d.InvoicePeriod);
+                });
+
+            }
+            else
+            {
+                invoice.invoiceDetails.ForEach(d =>
+                {
+                    var _details = dbContext.Transaction_InvoiceDetail.Find(d.InvoiceDetailssId);
+                    if (_details != null)
+                    {
+                        _details.Comments = invoice.Comments;
+                        _details.FK_StatusId = 4;
+                        _details.ModifiedBy = CurrentUser.PK_UserId;
+                        _details.ModifiedDate = DateTime.Now.ToUniversalTime();
+                        dbContext.Entry(_details).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        SaveDetail(invoice.InvoiceId, invoice.PlayerId, invoice.Comments, 4, d);
+                    }
+                });
+                dbContext.SaveChanges();
+                invoice.invoiceDetails.ForEach(d =>
+                {
+                    UpdateLastInv(invoice.InvoiceId, invoice.PlayerId, d.BatchId, d.InvoicePeriod);
+                });
+            }
+            if (invoice.InvoiceId != 0)
+            {
+                if (dbContext.Transaction_InvoiceDetail.All(d => d.FK_InvoiceId == invoice.InvoiceId && d.FK_StatusId == 4))
+                {
+                    var _invoice = dbContext.Transaction_Invoice.Find(invoice.InvoiceId);
+                    _invoice.FK_StatusId = 4;
+                    _invoice.ModifiedBy = CurrentUser.PK_UserId;
+                    _invoice.ModifiedDate = DateTime.Now.ToUniversalTime();
+                    dbContext.Entry(_invoice).State = EntityState.Modified;
+                    dbContext.SaveChanges();
+                }
+            }
+            dbContext.SaveChanges();
         }
 
+
+        [NonAction]
+        public void SaveDetail(int invoiceid, int playerid, string comments, int statusid, InvoiceDetailsModel detail)
+        {
+            dbContext.Transaction_InvoiceDetail.Add(new Transaction_InvoiceDetail()
+            {
+                FK_BatchId = detail.BatchId,
+                FK_InvoiceId = invoiceid,
+                FK_StatusId = statusid,
+                Amount = (decimal)detail.Fee,
+                InvoicePeriod = detail.InvoicePeriod,
+                Comments = comments,
+                CreatedBy = CurrentUser.PK_UserId,
+                CreatedDate = DateTime.Now.ToUniversalTime()
+            });
+
+        }
+        [NonAction]
+        public void UpdateLastInv(int invoiceid, int playerid, int BatchId, string InvoicePeriod)
+        {
+            var _playersport = dbContext.Transaction_PlayerSport.Where(s => s.FK_PlayerId == playerid && s.FK_BatchId == BatchId).FirstOrDefault();
+            if (_playersport != null)
+            {
+                _playersport.LastGeneratedMonth = InvoicePeriod.IndexOf('-') > 0 ? InvoicePeriod.Split('-')[1].ToString().Trim() : InvoicePeriod;
+                _playersport.ModifiedBy = CurrentUser.PK_UserId;
+                _playersport.ModifiedDate = DateTime.Now.ToUniversalTime();
+                dbContext.Entry(_playersport).State = EntityState.Modified;
+            }
+            dbContext.SaveChanges();
+        }
         [NonAction]
         public bool CheckforPreviousInvoice(int playerid, int batchid, string invperiod, int invperiodid)
         {
@@ -269,8 +337,10 @@ namespace MySportsBook.Api.Controllers
                     .Any())
                     return true;
             }
-           
+
             return true;
         }
+
+
     }
 }

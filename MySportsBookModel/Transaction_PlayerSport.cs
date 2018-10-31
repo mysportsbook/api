@@ -29,16 +29,17 @@ namespace MySportsBookModel
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public decimal Fee { get; set; }
     
         public virtual Configuration_InvoicePeriod Configuration_InvoicePeriod { get; set; }
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
         public virtual Configuration_User Configuration_User1 { get; set; }
-        public virtual Master_Batch Master_Batch { get; set; }
         public virtual Master_CoachingLevel Master_CoachingLevel { get; set; }
         public virtual Master_Court Master_Court { get; set; }
         public virtual Master_Player Master_Player { get; set; }
         public virtual Master_Sport Master_Sport { get; set; }
         public virtual Master_Venue Master_Venue { get; set; }
+        public virtual Master_Batch Master_Batch { get; set; }
     }
 }

@@ -18,8 +18,8 @@ namespace MySportsBookModel
         public Master_Court()
         {
             this.BatchCounts = new HashSet<BatchCount>();
-            this.Master_Batch = new HashSet<Master_Batch>();
             this.Transaction_PlayerSport = new HashSet<Transaction_PlayerSport>();
+            this.Master_Batch = new HashSet<Master_Batch>();
         }
     
         public int PK_CourtId { get; set; }
@@ -37,11 +37,11 @@ namespace MySportsBookModel
         public virtual ICollection<BatchCount> BatchCounts { get; set; }
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Master_Batch> Master_Batch { get; set; }
         public virtual Master_Sport Master_Sport { get; set; }
         public virtual Master_Venue Master_Venue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Master_Batch> Master_Batch { get; set; }
     }
 }

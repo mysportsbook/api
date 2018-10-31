@@ -24,8 +24,8 @@ namespace MySportsBook.Api.Controllers
                            BatchName = bc.Master_Batch.BatchName,
                            CourtId = bc.Master_Court.PK_CourtId,
                            CourtName = bc.Master_Court.CourtName,
-                           StartTime = bc.Master_Batch.StartTime.ToString(),
-                           EndTime = bc.Master_Batch.EndTime.ToString(),
+                           StartTime = "",
+                           EndTime = "",
                            Count = bc.Count
                        }).ToList());
         }
@@ -76,8 +76,8 @@ namespace MySportsBook.Api.Controllers
                                  BatchId = b.batcouspo.batcou.batch.PK_BatchId,
                                  BatchCode = b.batcouspo.batcou.batch.BatchCode,
                                  BatchName = b.batcouspo.batcou.batch.BatchName,
-                                 StartTime = b.batcouspo.batcou.batch.StartTime,
-                                 EndTime = b.batcouspo.batcou.batch.EndTime,
+                                 StartTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().StartTime : TimeSpan.MinValue,
+                                 EndTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().EndTime : TimeSpan.MinValue,
                                  MaxPlayer = b.batcouspo.batcou.batch.MaxPlayers,
                                  PlayerCount = dbContext.Transaction_PlayerSport.Where(s => s.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId && s.FK_StatusId == 1).Count(),
                                  IsAttendanceRequired = b.batcouspo.batcou.batch.IsAttendanceRequired

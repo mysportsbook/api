@@ -15,7 +15,7 @@ namespace MySportsBook.Common.Helper
 
     public class FileLogger : LogBase
     {
-        public string filePath = HostingEnvironment.MapPath("~/Log/log.txt");
+        public string filePath = HostingEnvironment.MapPath($"~/Log/{DateTime.Now.ToString("yyyy-MM-dd")}.txt");
         public override void Log(string message)
         {
             using (StreamWriter streamWriter = new StreamWriter(filePath, true))

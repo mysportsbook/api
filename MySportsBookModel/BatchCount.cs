@@ -20,8 +20,8 @@ namespace MySportsBookModel
         public int FK_CourtId { get; set; }
         public int Count { get; set; }
     
-        public virtual Master_Batch Master_Batch { get; set; }
         public virtual Master_Court Master_Court { get; set; }
         public virtual Master_Venue Master_Venue { get; set; }
+        public virtual Master_Batch Master_Batch { get; set; }
     }
 }

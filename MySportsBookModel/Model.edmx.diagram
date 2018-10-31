@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="MySportsBookModel.Configuration_Status" Width="1.5" PointX="0.75" PointY="37.25" />
         <EntityTypeShape EntityType="MySportsBookModel.Configuration_User" Width="1.5" PointX="3" PointY="34.375" />
         <EntityTypeShape EntityType="MySportsBookModel.Confirguration_PaymentMode" Width="1.5" PointX="18.5" PointY="47.5" />
-        <EntityTypeShape EntityType="MySportsBookModel.Master_Batch" Width="1.5" PointX="10.5" PointY="33.625" />
         <EntityTypeShape EntityType="MySportsBookModel.Master_CoachingLevel" Width="1.5" PointX="8.25" PointY="37.875" />
         <EntityTypeShape EntityType="MySportsBookModel.Master_Court" Width="1.5" PointX="15.5" PointY="38.25" />
         <EntityTypeShape EntityType="MySportsBookModel.Master_Player" Width="1.5" PointX="5.25" PointY="30.625" />
@@ -31,16 +30,13 @@
         <EntityTypeShape EntityType="MySportsBookModel.Transaction_PlayerSport" Width="1.5" PointX="17.75" PointY="35.75" />
         <EntityTypeShape EntityType="MySportsBookModel.Transaction_Receipt" Width="1.5" PointX="20.75" PointY="41.75" />
         <EntityTypeShape EntityType="MySportsBookModel.Transaction_Voucher" Width="1.5" PointX="5.25" PointY="37.5" />
-        <AssociationConnector Association="MySportsBookModel.FK_BatchCount_Master_Batch" />
         <AssociationConnector Association="MySportsBookModel.FK_BatchCount_Master_Court" />
         <AssociationConnector Association="MySportsBookModel.FK_BatchCount_Master_Venue" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_BatchType" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_InvoicePeriod" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_Player_Configuration_PlayerType" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen" />
         <AssociationConnector Association="MySportsBookModel.FK_Configuration_User_Configuration_Status" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_Status" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_CoachingLevel_Configuration_Status" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_Court_Configuration_Status" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_Player_Configuration_Status" />
@@ -55,8 +51,6 @@
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_Status" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Receipt_Configuration_Status" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Voucher_Configuration_Status" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_User" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_User1" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_CoachingLevel_Configuration_User" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_CoachingLevel_Configuration_User1" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_Court_Configuration_User" />
@@ -91,12 +85,6 @@
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Voucher_Configuration_User" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Voucher_Configuration_User1" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_Receipt_Confirguration_PaymentMode" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Court" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Player" />
-        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Venue" />
-        <AssociationConnector Association="MySportsBookModel.FK_Transaction_Attendance_Master_Batch" />
-        <AssociationConnector Association="MySportsBookModel.FK_Transaction_InvoiceDetail_Master_Batch" />
-        <AssociationConnector Association="MySportsBookModel.FK_Transaction_PlayerSport_Master_Batch" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_CoachingLevel_Master_Venue" />
         <AssociationConnector Association="MySportsBookModel.FK_Transaction_PlayerSport_Master_CoachingLevel" />
         <AssociationConnector Association="MySportsBookModel.FK_Master_Court_Master_Sport" />
@@ -135,6 +123,22 @@
         <AssociationConnector Association="MySportsBookModel.FK_OtherBooking_Master_Venue" />
         <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_Master_Venue" />
         <AssociationConnector Association="MySportsBookModel.FK_OtherBookingDetail_OtherBooking" />
+        <EntityTypeShape EntityType="MySportsBookModel.Master_Batch" Width="1.5" PointX="23.75" PointY="29.375" />
+        <EntityTypeShape EntityType="MySportsBookModel.Master_BatchTiming" Width="1.5" PointX="28" PointY="36" />
+        <AssociationConnector Association="MySportsBookModel.FK_BatchCount_Master_Batch" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_BatchType" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_Status" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_User" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Configuration_User1" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_BatchTiming_Configuration_User" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_BatchTiming_Configuration_User1" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Court" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Player" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_Batch_Master_Venue" />
+        <AssociationConnector Association="MySportsBookModel.FK_Master_BatchTiming_Master_Batch" />
+        <AssociationConnector Association="MySportsBookModel.FK_Transaction_Attendance_Master_Batch" />
+        <AssociationConnector Association="MySportsBookModel.FK_Transaction_InvoiceDetail_Master_Batch" />
+        <AssociationConnector Association="MySportsBookModel.FK_Transaction_PlayerSport_Master_Batch" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

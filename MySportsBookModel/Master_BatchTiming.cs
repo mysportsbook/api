@@ -12,19 +12,20 @@ namespace MySportsBookModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Transaction_Attendance
+    public partial class Master_BatchTiming
     {
-        public int PK_AttendanceId { get; set; }
-        public System.DateTime Date { get; set; }
-        public int FK_VenueId { get; set; }
+        public int PK_BatchTimingId { get; set; }
         public int FK_BatchId { get; set; }
-        public int FK_PlayerId { get; set; }
-        public bool Present { get; set; }
+        public string WeekDay { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
     
-        public virtual Master_Player Master_Player { get; set; }
-        public virtual Master_Venue Master_Venue { get; set; }
+        public virtual Configuration_User Configuration_User { get; set; }
+        public virtual Configuration_User Configuration_User1 { get; set; }
         public virtual Master_Batch Master_Batch { get; set; }
     }
 }

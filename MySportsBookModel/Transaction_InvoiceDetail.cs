@@ -29,7 +29,7 @@ namespace MySportsBookModel
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
         public virtual Configuration_User Configuration_User1 { get; set; }
-        public virtual Master_Batch Master_Batch { get; set; }
         public virtual Transaction_Invoice Transaction_Invoice { get; set; }
+        public virtual Master_Batch Master_Batch { get; set; }
     }
 }

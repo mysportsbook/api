@@ -11,4 +11,4 @@ MySportsBook.Api/obj/
 *.dll
 *.pdb
 *.cache
-MySportsBook.Api/obj/Debug/MySportsBook.Api.csproj.FileListAbsolute.txt
+MySportsBook.Api/Log/

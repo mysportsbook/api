@@ -14,7 +14,7 @@ namespace MySportsBookModel.ViewModel
         public DateTime DueDate { get; set; }
         public double TotalFee { get; set; }
         public double TotalDiscount { get; set; }
-        public double LateFee { get; set; }
+        public double OtherAmount { get; set; }
         public double PaidAmount { get; set; }
         public string Comments { get; set; }
         public bool ShouldClose { get; set; }
@@ -28,5 +28,6 @@ namespace MySportsBookModel.ViewModel
         public int InvoicePeriodId { get; set; }
         public string InvoicePeriod { get; set; }
         public double Fee { get; set; }
+        public int PayOrder { get; set; }
     }
 }

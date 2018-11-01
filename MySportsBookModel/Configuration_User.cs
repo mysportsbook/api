@@ -40,10 +40,6 @@ namespace MySportsBookModel
             this.Master_Venue1 = new HashSet<Master_Venue>();
             this.Master_Venue2 = new HashSet<Master_Venue>();
             this.Master_Venue3 = new HashSet<Master_Venue>();
-            this.Transaction_Invoice = new HashSet<Transaction_Invoice>();
-            this.Transaction_Invoice1 = new HashSet<Transaction_Invoice>();
-            this.Transaction_InvoiceDetail = new HashSet<Transaction_InvoiceDetail>();
-            this.Transaction_InvoiceDetail1 = new HashSet<Transaction_InvoiceDetail>();
             this.Transaction_PlayerSport = new HashSet<Transaction_PlayerSport>();
             this.Transaction_PlayerSport1 = new HashSet<Transaction_PlayerSport>();
             this.Transaction_Receipt = new HashSet<Transaction_Receipt>();
@@ -58,6 +54,10 @@ namespace MySportsBookModel
             this.Master_Batch1 = new HashSet<Master_Batch>();
             this.Master_BatchTiming = new HashSet<Master_BatchTiming>();
             this.Master_BatchTiming1 = new HashSet<Master_BatchTiming>();
+            this.Transaction_Invoice = new HashSet<Transaction_Invoice>();
+            this.Transaction_Invoice1 = new HashSet<Transaction_Invoice>();
+            this.Transaction_InvoiceDetail = new HashSet<Transaction_InvoiceDetail>();
+            this.Transaction_InvoiceDetail1 = new HashSet<Transaction_InvoiceDetail>();
         }
     
         public int PK_UserId { get; set; }
@@ -122,14 +122,6 @@ namespace MySportsBookModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Venue> Master_Venue3 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_Invoice> Transaction_Invoice { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_Invoice> Transaction_Invoice1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_InvoiceDetail> Transaction_InvoiceDetail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_InvoiceDetail> Transaction_InvoiceDetail1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_PlayerSport> Transaction_PlayerSport1 { get; set; }
@@ -157,5 +149,13 @@ namespace MySportsBookModel
         public virtual ICollection<Master_BatchTiming> Master_BatchTiming { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_BatchTiming> Master_BatchTiming1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction_Invoice> Transaction_Invoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction_Invoice> Transaction_Invoice1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction_InvoiceDetail> Transaction_InvoiceDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction_InvoiceDetail> Transaction_InvoiceDetail1 { get; set; }
     }
 }

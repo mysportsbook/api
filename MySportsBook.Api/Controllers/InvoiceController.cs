@@ -74,9 +74,10 @@ namespace MySportsBook.Api.Controllers
                         {
                             BatchId = batch.FK_BatchId,
                             SportName = batch.Master_Sport.SportName,
-                            Fee = (double)batch.Master_Batch.Fee * _freq,
+                            Fee = (double)batch.Fee * _freq,
                             InvoicePeriod = (batch.FK_InvoicePeriodId == 1 ? _listMonths[count] : _listMonths[count] + "-" + _listMonths[count + (_freq - 1)]),
-                            InvoicePeriodId = batch.FK_InvoicePeriodId
+                            InvoicePeriodId = batch.FK_InvoicePeriodId,
+                            PayOrder = count
                         });
                     }
                 }
@@ -101,7 +102,7 @@ namespace MySportsBook.Api.Controllers
                     FirstName = $"{inv.player.FirstName}-{inv.player.Mobile}",
                     TotalFee = (double)inv.invoice.TotalFee,
                     TotalDiscount = (double)inv.invoice.TotalDiscount,
-                    LateFee = (double)inv.invoice.LateFee,
+                    OtherAmount = (double)inv.invoice.OtherAmount,
                     PaidAmount = (double)inv.invoice.PaidAmount,
                     Comments = inv.invoice.Comments,
                     invoiceDetails = dbContext.Transaction_InvoiceDetail.Where(x => x.FK_StatusId == 1 && x.FK_InvoiceId == inv.invoice.PK_InvoiceId)
@@ -112,7 +113,7 @@ namespace MySportsBook.Api.Controllers
                         new InvoiceDetailsModel()
                         {
                             InvoicePeriod = details.batchinvcourt.batchinv.invdetails.InvoicePeriod,
-                            Fee = (double)details.batchinvcourt.batchinv.invdetails.Amount,
+                            Fee = (double)details.batchinvcourt.batchinv.invdetails.BatchAmount,
                             BatchId = details.batchinvcourt.batchinv.invdetails.FK_BatchId,
                             BatchName = details.batchinvcourt.batchinv.batch.BatchName,
                             SportName = details.sport.SportName
@@ -153,13 +154,13 @@ namespace MySportsBook.Api.Controllers
                     {
                         FK_VenueId = invoice.VenueId,
                         FK_PlayerId = invoice.PlayerId,
-                        FK_StatusId = ((invoice.TotalFee + invoice.LateFee - invoice.TotalDiscount) <= invoice.PaidAmount) ? 4 : 3,
+                        FK_StatusId = ((invoice.TotalFee + invoice.OtherAmount - invoice.TotalDiscount) <= invoice.PaidAmount) ? 4 : 3,
                         InvoiceDate = DateTime.Now.ToUniversalTime(),
                         InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
                         DueDate = DateTime.Now.AddDays(10).ToUniversalTime(),
                         TotalFee = (decimal)invoice.TotalFee,
                         TotalDiscount = (decimal)invoice.TotalDiscount,
-                        LateFee = (decimal)invoice.LateFee,
+                        OtherAmount = (decimal)invoice.OtherAmount,
                         PaidAmount = (decimal)invoice.PaidAmount,
                         Comments = invoice.Comments,
                         CreatedBy = CurrentUser.PK_UserId,
@@ -185,7 +186,7 @@ namespace MySportsBook.Api.Controllers
                         ReceiptNumber = NumberGenerateHelper.GenerateInvoiceNo(),
                         ReceiptDate = DateTime.Now.ToUniversalTime(),
                         AmountTobePaid = _invoice.TotalFee,
-                        OtherAmount = _invoice.LateFee,
+                        OtherAmount = _invoice.OtherAmount,
                         DiscountAmount = _invoice.TotalDiscount,
                         AmountPaid = (decimal)_invoice.PaidAmount,
                         FK_InvoiceId = _invoice.PK_InvoiceId,
@@ -236,7 +237,7 @@ namespace MySportsBook.Api.Controllers
                     DueDate = invoice.InvoiceDate,
                     TotalFee = (decimal)invoice.TotalFee,
                     TotalDiscount = (decimal)invoice.TotalDiscount,
-                    LateFee = (decimal)invoice.LateFee,
+                    OtherAmount = (decimal)invoice.OtherAmount,
                     PaidAmount = (decimal)invoice.PaidAmount,
                     Comments = invoice.Comments,
                     CreatedBy = CurrentUser.PK_UserId,
@@ -303,7 +304,7 @@ namespace MySportsBook.Api.Controllers
                 FK_BatchId = detail.BatchId,
                 FK_InvoiceId = invoiceid,
                 FK_StatusId = statusid,
-                Amount = (decimal)detail.Fee,
+                BatchAmount = (decimal)detail.Fee,
                 InvoicePeriod = detail.InvoicePeriod,
                 Comments = comments,
                 CreatedBy = CurrentUser.PK_UserId,

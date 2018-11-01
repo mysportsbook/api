@@ -76,8 +76,8 @@ namespace MySportsBook.Api.Controllers
                                  BatchId = b.batcouspo.batcou.batch.PK_BatchId,
                                  BatchCode = b.batcouspo.batcou.batch.BatchCode,
                                  BatchName = b.batcouspo.batcou.batch.BatchName,
-                                 StartTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().StartTime : TimeSpan.MinValue,
-                                 EndTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().EndTime : TimeSpan.MinValue,
+                                 StartTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().StartTime : TimeSpan.Zero,
+                                 EndTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().Count > 0 ? dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId).ToList().FirstOrDefault().EndTime : TimeSpan.Zero,
                                  MaxPlayer = b.batcouspo.batcou.batch.MaxPlayers,
                                  PlayerCount = dbContext.Transaction_PlayerSport.Where(s => s.FK_BatchId == b.batcouspo.batcou.batch.PK_BatchId && s.FK_StatusId == 1).Count(),
                                  IsAttendanceRequired = b.batcouspo.batcou.batch.IsAttendanceRequired

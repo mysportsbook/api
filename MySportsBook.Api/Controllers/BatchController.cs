@@ -16,18 +16,7 @@ namespace MySportsBook.Api.Controllers
         public IHttpActionResult Get()
         {
 
-            return Ok((from bc in dbContext.BatchCounts
-                       select new BatchCountModel()
-                       {
-                           BatchCountId = bc.PK_BatchCount,
-                           BatchId = bc.Master_Batch.PK_BatchId,
-                           BatchName = bc.Master_Batch.BatchName,
-                           CourtId = bc.Master_Court.PK_CourtId,
-                           CourtName = bc.Master_Court.CourtName,
-                           StartTime = "",
-                           EndTime = "",
-                           Count = bc.Count
-                       }).ToList());
+            return null;
         }
 
         [HttpGet]

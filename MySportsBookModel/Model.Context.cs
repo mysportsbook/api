@@ -12,6 +12,8 @@ namespace MySportsBookModel
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MySportsBookEntities : DbContext
     {
@@ -27,7 +29,6 @@ namespace MySportsBookModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<BatchCount> BatchCounts { get; set; }
         public virtual DbSet<Configuration_BatchType> Configuration_BatchType { get; set; }
         public virtual DbSet<Configuration_Format> Configuration_Format { get; set; }
         public virtual DbSet<Configuration_InvoicePeriod> Configuration_InvoicePeriod { get; set; }
@@ -36,8 +37,11 @@ namespace MySportsBookModel
         public virtual DbSet<Configuration_Status> Configuration_Status { get; set; }
         public virtual DbSet<Configuration_User> Configuration_User { get; set; }
         public virtual DbSet<Confirguration_PaymentMode> Confirguration_PaymentMode { get; set; }
+        public virtual DbSet<Master_Batch> Master_Batch { get; set; }
+        public virtual DbSet<Master_BatchTiming> Master_BatchTiming { get; set; }
         public virtual DbSet<Master_CoachingLevel> Master_CoachingLevel { get; set; }
         public virtual DbSet<Master_Court> Master_Court { get; set; }
+        public virtual DbSet<Master_Enquiry> Master_Enquiry { get; set; }
         public virtual DbSet<Master_Player> Master_Player { get; set; }
         public virtual DbSet<Master_Role> Master_Role { get; set; }
         public virtual DbSet<Master_RoleScreen> Master_RoleScreen { get; set; }
@@ -46,17 +50,31 @@ namespace MySportsBookModel
         public virtual DbSet<Master_UserRole> Master_UserRole { get; set; }
         public virtual DbSet<Master_UserVenue> Master_UserVenue { get; set; }
         public virtual DbSet<Master_Venue> Master_Venue { get; set; }
+        public virtual DbSet<OtherBooking> OtherBookings { get; set; }
+        public virtual DbSet<OtherBookingDetail> OtherBookingDetails { get; set; }
         public virtual DbSet<Transaction_Attendance> Transaction_Attendance { get; set; }
+        public virtual DbSet<Transaction_Enquiry_Comments> Transaction_Enquiry_Comments { get; set; }
+        public virtual DbSet<Transaction_Invoice> Transaction_Invoice { get; set; }
+        public virtual DbSet<Transaction_InvoiceDetail> Transaction_InvoiceDetail { get; set; }
         public virtual DbSet<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
         public virtual DbSet<Transaction_Receipt> Transaction_Receipt { get; set; }
         public virtual DbSet<Transaction_Voucher> Transaction_Voucher { get; set; }
-        public virtual DbSet<Master_Enquiry> Master_Enquiry { get; set; }
-        public virtual DbSet<Transaction_Enquiry_Comments> Transaction_Enquiry_Comments { get; set; }
-        public virtual DbSet<OtherBooking> OtherBookings { get; set; }
-        public virtual DbSet<OtherBookingDetail> OtherBookingDetails { get; set; }
-        public virtual DbSet<Master_Batch> Master_Batch { get; set; }
-        public virtual DbSet<Master_BatchTiming> Master_BatchTiming { get; set; }
-        public virtual DbSet<Transaction_Invoice> Transaction_Invoice { get; set; }
-        public virtual DbSet<Transaction_InvoiceDetail> Transaction_InvoiceDetail { get; set; }
+    
+        public virtual ObjectResult<rp_COLLECTIONDETAIL_Result> rp_COLLECTIONDETAIL(Nullable<int> vENUEID, Nullable<System.DateTime> mONTH, string tYPE)
+        {
+            var vENUEIDParameter = vENUEID.HasValue ?
+                new ObjectParameter("VENUEID", vENUEID) :
+                new ObjectParameter("VENUEID", typeof(int));
+    
+            var mONTHParameter = mONTH.HasValue ?
+                new ObjectParameter("MONTH", mONTH) :
+                new ObjectParameter("MONTH", typeof(System.DateTime));
+    
+            var tYPEParameter = tYPE != null ?
+                new ObjectParameter("TYPE", tYPE) :
+                new ObjectParameter("TYPE", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<rp_COLLECTIONDETAIL_Result>("rp_COLLECTIONDETAIL", vENUEIDParameter, mONTHParameter, tYPEParameter);
+        }
     }
 }

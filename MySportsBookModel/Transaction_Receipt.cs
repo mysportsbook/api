@@ -19,9 +19,9 @@ namespace MySportsBookModel
         public System.DateTime ReceiptDate { get; set; }
         public int FK_VenueId { get; set; }
         public int FK_InvoiceId { get; set; }
-        public decimal AmountTobePaid { get; set; }
-        public Nullable<decimal> OtherAmount { get; set; }
-        public Nullable<decimal> DiscountAmount { get; set; }
+        public decimal TotalFee { get; set; }
+        public Nullable<decimal> TotalOtherAmount { get; set; }
+        public Nullable<decimal> TotalDiscountAmount { get; set; }
         public decimal AmountPaid { get; set; }
         public string Description { get; set; }
         public int FK_PaymentModeId { get; set; }
@@ -31,10 +31,13 @@ namespace MySportsBookModel
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.DateTime> TransactionDate { get; set; }
+        public Nullable<int> ReceivedBy { get; set; }
     
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
         public virtual Configuration_User Configuration_User1 { get; set; }
+        public virtual Configuration_User Configuration_User2 { get; set; }
         public virtual Confirguration_PaymentMode Confirguration_PaymentMode { get; set; }
         public virtual Master_Venue Master_Venue { get; set; }
         public virtual Transaction_Invoice Transaction_Invoice { get; set; }

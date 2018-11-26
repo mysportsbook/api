@@ -8,26 +8,29 @@ namespace MySportsBookModel.ViewModel
 {
     public class InvoiceModel : PlayerModel
     {
+        public int PaymentId { get; set; }
         public int InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public DateTime DueDate { get; set; }
         public double TotalFee { get; set; }
+        public double TotalOtherAmount { get; set; }
         public double TotalDiscount { get; set; }
-        public double OtherAmount { get; set; }
-        public double PaidAmount { get; set; }
+        public double TotalPaidAmount { get; set; }
+        public double ExtraPaidAmount { get; set; }
         public string Comments { get; set; }
-        public bool ShouldClose { get; set; }
-        public bool GenerateReceipt { get; set; }
-        public int PaymentId { get; set; }
-        public List<InvoiceDetailsModel> invoiceDetails { get; set; }
+        public string TransactionNo { get; set; }
+        public DateTime? TransactionDate { get; set; }
+        public int ReceivedBy { get; set; }
+        public bool NoDues { get; set; }
+        public List<InvoiceDetailModel> InvoiceDetails { get; set; }
     }
-    public class InvoiceDetailsModel : BatchModel
+    public class InvoiceDetailModel : BatchModel
     {
         public int InvoiceDetailssId { get; set; }
         public int InvoicePeriodId { get; set; }
         public string InvoicePeriod { get; set; }
         public double Fee { get; set; }
         public int PayOrder { get; set; }
+        public double PaidAmount { get; set; }
     }
 }

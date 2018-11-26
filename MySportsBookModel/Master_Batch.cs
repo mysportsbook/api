@@ -17,11 +17,10 @@ namespace MySportsBookModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Master_Batch()
         {
-            this.BatchCounts = new HashSet<BatchCount>();
             this.Master_BatchTiming = new HashSet<Master_BatchTiming>();
             this.Transaction_Attendance = new HashSet<Transaction_Attendance>();
-            this.Transaction_PlayerSport = new HashSet<Transaction_PlayerSport>();
             this.Transaction_InvoiceDetail = new HashSet<Transaction_InvoiceDetail>();
+            this.Transaction_PlayerSport = new HashSet<Transaction_PlayerSport>();
         }
     
         public int PK_BatchId { get; set; }
@@ -44,8 +43,6 @@ namespace MySportsBookModel
         public bool IsAttendanceRequired { get; set; }
         public bool IsFull { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BatchCount> BatchCounts { get; set; }
         public virtual Configuration_BatchType Configuration_BatchType { get; set; }
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
@@ -58,8 +55,8 @@ namespace MySportsBookModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_Attendance> Transaction_Attendance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_InvoiceDetail> Transaction_InvoiceDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction_PlayerSport> Transaction_PlayerSport { get; set; }
     }
 }

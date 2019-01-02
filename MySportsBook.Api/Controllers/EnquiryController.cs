@@ -38,7 +38,7 @@ namespace MySportsBook.Api.Controllers
             {
                 _enquiry = new Master_Enquiry() { FK_VenueId = enquiryModel.VenueId, Game = enquiryModel.Game, Mobile = enquiryModel.Mobile, Name = enquiryModel.Name, Slot = enquiryModel.Slot, Comments = enquiryModel.Comment };
                 _enquiry.CreatedBy = CurrentUser.PK_UserId;
-                _enquiry.CreatedDate = DateTime.Now.ToUniversalTime();
+                _enquiry.CreatedDate = DateTime.Now.ToLocalTime();
                 dbContext.Master_Enquiry.Add(_enquiry);
             }
             else
@@ -63,7 +63,7 @@ namespace MySportsBook.Api.Controllers
                         Comments = c,
                         FK_EnquiryId = _enquiry.PK_EnquiryId,
                         CreatedBy = CurrentUser.PK_UserId,
-                        CreatedDate = DateTime.Now.ToUniversalTime()
+                        CreatedDate = DateTime.Now.ToLocalTime()
                     });
                 });
 

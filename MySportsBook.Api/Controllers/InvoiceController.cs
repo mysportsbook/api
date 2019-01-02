@@ -1,14 +1,12 @@
-﻿using MySportsBookModel.ViewModel;
+﻿using MySportsBook.Common.Helper;
+using MySportsBookModel;
+using MySportsBookModel.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Data.Entity;
-using MySportsBookModel;
-using MySportsBook.Common.Helper;
 
 namespace MySportsBook.Api.Controllers
 {
@@ -35,7 +33,7 @@ namespace MySportsBook.Api.Controllers
         // GET api/invoice
         public IHttpActionResult Post(InvoiceModel invoice)
         {
-           return Save(invoice);
+            return Save(invoice);
         }
 
         [NonAction]
@@ -49,36 +47,86 @@ namespace MySportsBook.Api.Controllers
         {
             List<InvoiceDetailModel> invoiceDetails = new List<InvoiceDetailModel>();
             var batchdetails = dbContext.Transaction_PlayerSport.Include(c => c.Master_Sport).Include(c => c.Master_Batch).Where(x => x.FK_StatusId == 1 && x.FK_PlayerId == playerid);
-            int _months = 0, _freq = 0, _totalmonths = 0;
-            string[] _listMonths = new string[] { };
-            DateTime _date;
-            batchdetails.ToList().ForEach(batch =>
+            if (dbContext.Master_Venue.Find(venueid).GuestPlayerId != playerid)
             {
-                _date = DateTime.ParseExact(batch.LastGeneratedMonth, "MMMyyyy", CultureInfo.CurrentCulture);
-                _months = ((DateTime.Now.Year - _date.Year) * 12) + (DateTime.Now.Month - _date.Month);
-                if (_months > 0)
+                int _months = 0, _freq = 0, _totalmonths = 0;
+                string[] _listMonths = new string[] { };
+                DateTime _date;
+                batchdetails.ToList().ForEach(batch =>
                 {
-                    _freq = batch.FK_InvoicePeriodId == 1 ? 1 : batch.FK_InvoicePeriodId == 2 ? 3 : batch.FK_InvoicePeriodId == 3 ? 6 : 12;
-                    _totalmonths = (int)Math.Ceiling((decimal)(_months / (decimal)_freq)) * _freq;
-                    _listMonths = Enumerable.Range(0, Int32.MaxValue)
-                     .Select(e => batch.CreatedDate.AddMonths(e))
-                     .TakeWhile(e => e <= batch.CreatedDate.AddMonths((int)_totalmonths).ToUniversalTime())
-                     .Select(e => e.ToString("MMMyyyy").ToUpper()).ToArray();
-                    for (int count = 0; count < _totalmonths; count += _freq)
+                    _date = DateTime.ParseExact(batch.LastGeneratedMonth, "MMMyyyy", CultureInfo.CurrentCulture);
+                    _months = ((DateTime.Now.Year - _date.Year) * 12) + (DateTime.Now.Month + 1 - _date.Month);
+                    if (_months > 0)
                     {
-                        invoiceDetails.Add(new InvoiceDetailModel()
+                        _freq = batch.FK_InvoicePeriodId == 1 ? 1 : batch.FK_InvoicePeriodId == 2 ? 3 : batch.FK_InvoicePeriodId == 3 ? 6 : 12;
+                        _totalmonths = (int)Math.Ceiling(_months / (decimal)_freq) * _freq;
+                        _listMonths = Enumerable.Range(0, Int32.MaxValue)
+                         .Select(e => _date.AddMonths(e + 1))
+                         .TakeWhile(e => e <= _date.AddMonths(1).AddMonths(_totalmonths).ToLocalTime())
+                         .Select(e => e.ToString("MMMyyyy").ToUpper()).ToArray();
+                        for (int count = 0; count < _totalmonths; count += _freq)
                         {
-                            BatchId = batch.FK_BatchId,
-                            SportName = batch.Master_Sport.SportName,
-                            Fee = (double)batch.Fee * _freq,
-                            InvoicePeriod = (batch.FK_InvoicePeriodId == 1 ? _listMonths[count] : _listMonths[count] + "-" + _listMonths[count + (_freq - 1)]),
-                            InvoicePeriodId = batch.FK_InvoicePeriodId,
-                            PayOrder = count
-                        });
+                            invoiceDetails.Add(new InvoiceDetailModel()
+                            {
+                                BatchId = batch.FK_BatchId,
+                                BatchName = batch.Master_Batch.BatchName,
+                                SportName = batch.Master_Sport.SportName,
+                                Fee = (double)batch.Fee * _freq,
+                                InvoicePeriod = (batch.FK_InvoicePeriodId == 1 ? _listMonths[count] : _listMonths[count] + "-" + _listMonths[count + (_freq - 1)]),
+                                InvoicePeriodId = batch.FK_InvoicePeriodId,
+                                PayOrder = count
+                            });
+                        }
                     }
-                }
 
-            });
+                });
+                var _CreditBalance = dbContext.Master_Player.Where(p => p.PK_PlayerId == playerid && p.FK_StatusId == 1).FirstOrDefault().CreditBalance;
+                if (_CreditBalance > 0)
+                {
+                    invoiceDetails.ForEach(x =>
+                    {
+                        if (_CreditBalance > 0 && (double)_CreditBalance > x.Fee)
+                        {
+                            x.Fee = 0;
+                            _CreditBalance -= (decimal)x.Fee;
+                        }
+                        else if (_CreditBalance > 0 && (double)_CreditBalance < x.Fee)
+                        {
+                            x.Fee -= (double)_CreditBalance;
+                            _CreditBalance = 0;
+                        }
+
+                    });
+                }
+                var _openInvoice = dbContext.Transaction_InvoiceDetail.Where(x => dbContext.Transaction_Invoice.Any(i => i.FK_PlayerId == playerid && i.FK_StatusId == 3 && i.PK_InvoiceId == x.FK_InvoiceId));
+                if (_openInvoice != null)
+                {
+                    invoiceDetails.ForEach(x =>
+                    {
+                        if (_openInvoice.Any(o => o.InvoicePeriod == x.InvoicePeriod))
+                        {
+                            x.Fee -= (double)_openInvoice.Where(o => o.InvoicePeriod == x.InvoicePeriod).Sum(s => s.PaidAmount);
+                        }
+                    });
+                }
+            }
+            else
+            {
+                batchdetails.ToList().ForEach(batch =>
+                {
+                    invoiceDetails.Add(new InvoiceDetailModel()
+                    {
+                        BatchId = batch.FK_BatchId,
+                        BatchName = batch.Master_Batch.BatchName,
+                        SportName = batch.Master_Sport.SportName,
+                        Fee = (double)batch.Fee,
+                        InvoicePeriod = DateTime.Now.ToString("MMMyyyy").ToUpper(),
+                        InvoicePeriodId = batch.FK_InvoicePeriodId,
+                        PayOrder = 1
+                    });
+
+                });
+            }
             return invoiceDetails;
         }
 
@@ -157,16 +205,16 @@ namespace MySportsBook.Api.Controllers
                     FK_VenueId = invoice.VenueId,
                     FK_PlayerId = invoice.PlayerId,
                     FK_StatusId = ((invoice.TotalFee + invoice.TotalOtherAmount - invoice.TotalDiscount) <= invoice.TotalPaidAmount) ? 4 : 3,
-                    InvoiceDate = DateTime.Now.ToUniversalTime(),
+                    InvoiceDate = invoice.InvoiceDate.HasValue ? invoice.InvoiceDate.Value.ToLocalTime() : DateTime.Now.ToLocalTime(),
                     InvoiceNumber = GenerateInvoiceNo(),
-                    DueDate = DateTime.Now.AddDays(10).ToUniversalTime(),
+                    DueDate = DateTime.Now.AddDays(10).ToLocalTime(),
                     TotalFee = (decimal)invoice.TotalFee,
                     TotalDiscount = (decimal)invoice.TotalDiscount,
                     OtherAmount = (decimal)invoice.TotalOtherAmount,
-                    PaidAmount = (decimal)invoice.TotalPaidAmount,
+                    PaidAmount = (decimal)invoice.InvoiceDetails.Sum(x => x.PaidAmount),
                     Comments = invoice.Comments,
                     CreatedBy = CurrentUser.PK_UserId,
-                    CreatedDate = DateTime.Now.ToUniversalTime()
+                    CreatedDate = DateTime.Now.ToLocalTime()
                 };
                 dbContext.Transaction_Invoice.Add(_transInvoice);
                 dbContext.SaveChanges();
@@ -194,21 +242,21 @@ namespace MySportsBook.Api.Controllers
                 {
                     PK_ReceiptId = 0,
                     ReceiptNumber = GenerateInvoiceNo(),
-                    ReceiptDate = DateTime.Now.ToUniversalTime(),
+                    ReceiptDate = invoice.InvoiceDate.HasValue ? invoice.InvoiceDate.Value.ToLocalTime() : DateTime.Now.ToLocalTime(),
                     TotalFee = _invoice.TotalFee,
                     TotalOtherAmount = _invoice.OtherAmount,
                     TotalDiscountAmount = _invoice.TotalDiscount,
-                    AmountPaid = (decimal)_invoice.PaidAmount,
+                    AmountPaid = (decimal)invoice.TotalPaidAmount,
                     TransactionDate = invoice.TransactionDate,
                     TransactionNumber = invoice.TransactionNo,
-                    ReceivedBy = invoice.ReceivedBy,
+                    ReceivedBy = CurrentUser.PK_UserId,
                     FK_InvoiceId = _invoice.PK_InvoiceId,
                     FK_PaymentModeId = invoice.PaymentId,
                     FK_StatusId = 1,
                     FK_VenueId = invoice.VenueId,
                     Description = invoice.Comments,
                     CreatedBy = CurrentUser.PK_UserId,
-                    CreatedDate = DateTime.Now.ToUniversalTime()
+                    CreatedDate = DateTime.Now.ToLocalTime()
                 });
                 if (invoice.ExtraPaidAmount > 0)
                 {
@@ -241,9 +289,9 @@ namespace MySportsBook.Api.Controllers
                     FK_VenueId = invoice.VenueId,
                     FK_PlayerId = invoice.PlayerId,
                     FK_StatusId = 4,
-                    InvoiceDate = invoice.InvoiceDate,
+                    InvoiceDate = invoice.InvoiceDate.HasValue ? invoice.InvoiceDate.Value.ToLocalTime() : DateTime.Now.ToLocalTime(),
                     InvoiceNumber = NumberGenerateHelper.GenerateInvoiceNo(),
-                    DueDate = invoice.InvoiceDate,
+                    DueDate = invoice.InvoiceDate.HasValue ? invoice.InvoiceDate.Value.AddDays(10).ToLocalTime() : DateTime.Now.AddDays(10).ToLocalTime(),
                     TotalFee = (decimal)invoice.TotalFee,
                     TotalDiscount = (decimal)invoice.TotalDiscount,
                     OtherAmount = (decimal)invoice.TotalOtherAmount,
@@ -275,7 +323,7 @@ namespace MySportsBook.Api.Controllers
                         _details.Comments = invoice.Comments;
                         _details.FK_StatusId = 4;
                         _details.ModifiedBy = CurrentUser.PK_UserId;
-                        _details.ModifiedDate = DateTime.Now.ToUniversalTime();
+                        _details.ModifiedDate = DateTime.Now.ToLocalTime();
                         dbContext.Entry(_details).State = EntityState.Modified;
                     }
                     else
@@ -296,7 +344,7 @@ namespace MySportsBook.Api.Controllers
                     var _invoice = dbContext.Transaction_Invoice.Find(invoice.InvoiceId);
                     _invoice.FK_StatusId = 4;
                     _invoice.ModifiedBy = CurrentUser.PK_UserId;
-                    _invoice.ModifiedDate = DateTime.Now.ToUniversalTime();
+                    _invoice.ModifiedDate = DateTime.Now.ToLocalTime();
                     dbContext.Entry(_invoice).State = EntityState.Modified;
                     dbContext.SaveChanges();
                 }
@@ -308,6 +356,7 @@ namespace MySportsBook.Api.Controllers
         [NonAction]
         public void SaveDetail(int invoiceid, int playerid, string comments, int statusid, InvoiceDetailModel detail)
         {
+            int _statusid = detail.Fee == detail.PaidAmount ? 4 : 3;
             dbContext.Transaction_InvoiceDetail.Add(new Transaction_InvoiceDetail()
             {
                 FK_BatchId = detail.BatchId,
@@ -315,11 +364,27 @@ namespace MySportsBook.Api.Controllers
                 FK_StatusId = statusid,
                 BatchAmount = (decimal)detail.Fee,
                 InvoicePeriod = detail.InvoicePeriod,
+                PaidAmount= (decimal)detail.PaidAmount,
                 Comments = comments,
                 CreatedBy = CurrentUser.PK_UserId,
-                CreatedDate = DateTime.Now.ToUniversalTime()
+                CreatedDate = DateTime.Now.ToLocalTime()
             });
+            if (_statusid == 4 && dbContext.Transaction_InvoiceDetail.Any(d => d.FK_StatusId == 3 && d.InvoicePeriod == detail.InvoicePeriod && dbContext.Transaction_Invoice.Any(i => i.FK_StatusId == 3 && i.PK_InvoiceId == d.FK_InvoiceId && i.FK_PlayerId == playerid)))
+            {
+                var _details = dbContext.Transaction_InvoiceDetail.Where(d => d.FK_StatusId == 3 && d.InvoicePeriod == detail.InvoicePeriod && dbContext.Transaction_Invoice.Any(i => i.FK_StatusId == 3 && i.PK_InvoiceId == d.FK_InvoiceId && i.FK_PlayerId == playerid));
+                if (_details?.Count() > 0)
+                {
+                    _details.ToList().ForEach(d =>
+                    {
+                        //CLOSE THE INVOICE DETAIL IF PAID
+                        d.FK_StatusId = 4;
+                        d.ModifiedBy = CurrentUser.PK_UserId;
+                        d.ModifiedDate = DateTime.Now.ToLocalTime();
+                        dbContext.Entry(d).State = EntityState.Modified;
 
+                    });
+                }
+            }
         }
 
         [NonAction]
@@ -330,7 +395,7 @@ namespace MySportsBook.Api.Controllers
             {
                 _playersport.LastGeneratedMonth = InvoicePeriod.IndexOf('-') > 0 ? InvoicePeriod.Split('-')[1].ToString().Trim() : InvoicePeriod;
                 _playersport.ModifiedBy = CurrentUser.PK_UserId;
-                _playersport.ModifiedDate = DateTime.Now.ToUniversalTime();
+                _playersport.ModifiedDate = DateTime.Now.ToLocalTime();
                 dbContext.Entry(_playersport).State = EntityState.Modified;
             }
             dbContext.SaveChanges();
@@ -435,7 +500,7 @@ namespace MySportsBook.Api.Controllers
                     _totalmonths = (int)Math.Ceiling(_months / (decimal)_freq) * _freq;
                     _listMonths = Enumerable.Range(0, Int32.MaxValue)
                      .Select(e => _date.AddMonths(e + 1))
-                     .TakeWhile(e => e <= _date.AddMonths(1).AddMonths(_totalmonths).ToUniversalTime())
+                     .TakeWhile(e => e <= _date.AddMonths(1).AddMonths(_totalmonths).ToLocalTime())
                      .Select(e => e.ToString("MMMyyyy").ToUpper()).ToArray();
                     for (int count = 0; count < _totalmonths; count += _freq)
                     {
@@ -454,8 +519,8 @@ namespace MySportsBook.Api.Controllers
 
             });
             invoiceModel.PlayerId = playerId;
-            var _CreditBalance = dbContext.Master_Player.Where(p => p.PK_PlayerId == playerId && p.FK_StatusId == 1).FirstOrDefault().CreditBalance;
-            if (_CreditBalance > 0)
+            var _CreditBalance = dbContext.Master_Player.Where(p => p.PK_PlayerId == playerId && p.FK_StatusId == 1).FirstOrDefault()?.CreditBalance;
+            if (_CreditBalance.HasValue && _CreditBalance > 0)
             {
                 invoiceModel.InvoiceDetails.ForEach(x =>
                 {
@@ -501,7 +566,7 @@ namespace MySportsBook.Api.Controllers
             {
                 _playersport.LastGeneratedMonth = InvoicePeriod.IndexOf('-') > 0 ? InvoicePeriod.Split('-')[1].ToString().Trim() : InvoicePeriod;
                 _playersport.ModifiedBy = CurrentUser.PK_UserId;
-                _playersport.ModifiedDate = DateTime.Now.ToUniversalTime();
+                _playersport.ModifiedDate = DateTime.Now.ToLocalTime();
                 dbContext.Entry(_playersport).State = EntityState.Modified;
             }
             dbContext.SaveChanges();
@@ -530,7 +595,7 @@ namespace MySportsBook.Api.Controllers
                                                                             {
                                                                                 c.FK_StatusId = 4;
                                                                                 c.ModifiedBy = CurrentUser.PK_UserId;
-                                                                                c.ModifiedDate = DateTime.Now.ToUniversalTime();
+                                                                                c.ModifiedDate = DateTime.Now.ToLocalTime();
                                                                                 dbContext.Entry(c).State = EntityState.Modified;
                                                                             });
                         dbContext.SaveChanges();
@@ -544,7 +609,7 @@ namespace MySportsBook.Api.Controllers
                         {
                             inv.FK_StatusId = 4;
                             inv.ModifiedBy = CurrentUser.PK_UserId;
-                            inv.ModifiedDate = DateTime.Now.ToUniversalTime();
+                            inv.ModifiedDate = DateTime.Now.ToLocalTime();
                             dbContext.Entry(inv).State = EntityState.Modified;
                         }
                     });

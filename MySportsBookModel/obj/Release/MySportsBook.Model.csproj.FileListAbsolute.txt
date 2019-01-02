@@ -43,4 +43,5 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\EntityFramework.
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csproj.CoreCompileInputs.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.pdb
-E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojResolveAssemblyReference.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojAssemblyReference.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csproj.CopyComplete

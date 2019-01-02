@@ -269,7 +269,6 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\Microsoft.AI.Dependenc
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\Microsoft.AI.WindowsServer.xml
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\bin\Microsoft.AI.Web.xml
-D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Release\MySportsBook.Api.csprojResolveAssemblyReference.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Release\MySportsBook.Api.csproj.CoreCompileInputs.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Release\MySportsBook.Api.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Release\MySportsBook.Api.dll
@@ -369,3 +368,4 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Release\MySportsBook.Api.
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Release\MySportsBook.Api.csproj.CoreCompileInputs.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Release\MySportsBook.Api.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Release\MySportsBook.Api.pdb
+D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Api\obj\Release\MySportsBook.Api.csprojAssemblyReference.cache

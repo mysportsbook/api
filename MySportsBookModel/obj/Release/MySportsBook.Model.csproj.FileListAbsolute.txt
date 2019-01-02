@@ -32,7 +32,6 @@ D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.Model.csproj.CopyComplete
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBookModel.dll
 D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBookModel.pdb
-D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojResolveAssemblyReference.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.dll.config
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\bin\Release\MySportsBookModel.pdb
@@ -44,3 +43,4 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Mod
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBookModel.pdb
 E:\DotNet\MySportsBook\GitHub\api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojResolveAssemblyReference.cache
+D:\Training\MSB\API\MySportsBook.Api\MySportsBookModel\obj\Release\MySportsBook.Model.csprojAssemblyReference.cache

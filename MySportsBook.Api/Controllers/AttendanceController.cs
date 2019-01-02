@@ -85,7 +85,7 @@ namespace MySportsBook.Api.Controllers
                         Date = a.Date.Value,
                         Present = true,
                         CreatedBy = CurrentUser.PK_UserId,
-                        CreatedDate = DateTime.Now.ToUniversalTime()
+                        CreatedDate = DateTime.Now.ToLocalTime()
 
                     });
                 });

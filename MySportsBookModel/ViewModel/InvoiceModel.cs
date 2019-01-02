@@ -11,7 +11,7 @@ namespace MySportsBookModel.ViewModel
         public int PaymentId { get; set; }
         public int InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
-        public DateTime InvoiceDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
         public double TotalFee { get; set; }
         public double TotalOtherAmount { get; set; }
         public double TotalDiscount { get; set; }

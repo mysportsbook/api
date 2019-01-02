@@ -20,8 +20,6 @@ namespace MySportsBookModel
         public MySportsBookEntities()
             : base("name=MySportsBookEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -50,6 +48,7 @@ namespace MySportsBookModel
         public virtual DbSet<Master_UserRole> Master_UserRole { get; set; }
         public virtual DbSet<Master_UserVenue> Master_UserVenue { get; set; }
         public virtual DbSet<Master_Venue> Master_Venue { get; set; }
+        public virtual DbSet<Master_VenueScreen> Master_VenueScreen { get; set; }
         public virtual DbSet<OtherBooking> OtherBookings { get; set; }
         public virtual DbSet<OtherBookingDetail> OtherBookingDetails { get; set; }
         public virtual DbSet<Transaction_Attendance> Transaction_Attendance { get; set; }

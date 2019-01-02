@@ -121,7 +121,7 @@ namespace MySportsBook.Api.Controllers
                 Amount = amount,
                 Message = string.Join(",", message).ToString(),
                 CreatedBy = CurrentUser.PK_UserId,
-                CreatedDate = DateTime.Now.ToUniversalTime()
+                CreatedDate = DateTime.Now.ToLocalTime()
 
             };
             if (IsCancel && booking != null)
@@ -138,7 +138,7 @@ namespace MySportsBook.Api.Controllers
                     {
                         detail.details.Status = "Cancelled";
                         detail.details.ModifiedBy = CurrentUser.PK_UserId;
-                        detail.details.ModifiedDate = DateTime.Now.ToUniversalTime();
+                        detail.details.ModifiedDate = DateTime.Now.ToLocalTime();
                         SaveDetails(detail.details);
                     }
                     else
@@ -152,7 +152,7 @@ namespace MySportsBook.Api.Controllers
                             Status = IsCancel ? "Cancelled" : "Booked",
                             FK_BookingId = booking.PK_BookingId,
                             CreatedBy = CurrentUser.PK_UserId,
-                            CreatedDate = DateTime.Now.ToUniversalTime()
+                            CreatedDate = DateTime.Now.ToLocalTime()
                         });
                     }
                 });
@@ -200,7 +200,7 @@ namespace MySportsBook.Api.Controllers
                     Status = IsCancel ? "Cancelled" : "Booked",
                     FK_BookingId = otherBooking.PK_BookingId,
                     CreatedBy = CurrentUser.PK_UserId,
-                    CreatedDate = DateTime.Now.ToUniversalTime()
+                    CreatedDate = DateTime.Now.ToLocalTime()
                 });
 
             });

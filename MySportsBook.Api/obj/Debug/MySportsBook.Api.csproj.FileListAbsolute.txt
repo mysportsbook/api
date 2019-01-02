@@ -366,7 +366,6 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\bin\Microsoft.AI.DependencyCo
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\bin\Microsoft.AI.ServerTelemetryChannel.xml
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\bin\Microsoft.AI.WindowsServer.xml
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\bin\Microsoft.AI.Web.xml
-E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Debug\MySportsBook.Api.csprojResolveAssemblyReference.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Debug\MySportsBook.Api.csproj.CoreCompileInputs.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Debug\MySportsBook.Api.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Api\obj\Debug\MySportsBook.Api.pdb

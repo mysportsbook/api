@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="MySportsBookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="MySportsBookEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="BatchCounts" EntityType="MySportsBookModel.BatchCount" />
+    <FunctionImport Name="rp_COLLECTIONDETAIL" ReturnType="Collection(MySportsBookModel.rp_COLLECTIONDETAIL_Result)">
+      <Parameter Name="VENUEID" Mode="In" Type="Int32" />
+      <Parameter Name="MONTH" Mode="In" Type="DateTime" />
+      <Parameter Name="TYPE" Mode="In" Type="String" />
+    </FunctionImport>
     <EntitySet Name="Configuration_BatchType" EntityType="MySportsBookModel.Configuration_BatchType" />
     <EntitySet Name="Configuration_Format" EntityType="MySportsBookModel.Configuration_Format" />
     <EntitySet Name="Configuration_InvoicePeriod" EntityType="MySportsBookModel.Configuration_InvoicePeriod" />
@@ -12,6 +16,7 @@
     <EntitySet Name="Confirguration_PaymentMode" EntityType="MySportsBookModel.Confirguration_PaymentMode" />
     <EntitySet Name="Master_CoachingLevel" EntityType="MySportsBookModel.Master_CoachingLevel" />
     <EntitySet Name="Master_Court" EntityType="MySportsBookModel.Master_Court" />
+    <EntitySet Name="Master_Enquiry" EntityType="MySportsBookModel.Master_Enquiry" />
     <EntitySet Name="Master_Player" EntityType="MySportsBookModel.Master_Player" />
     <EntitySet Name="Master_Role" EntityType="MySportsBookModel.Master_Role" />
     <EntitySet Name="Master_RoleScreen" EntityType="MySportsBookModel.Master_RoleScreen" />
@@ -20,6 +25,9 @@
     <EntitySet Name="Master_UserRole" EntityType="MySportsBookModel.Master_UserRole" />
     <EntitySet Name="Master_UserVenue" EntityType="MySportsBookModel.Master_UserVenue" />
     <EntitySet Name="Master_Venue" EntityType="MySportsBookModel.Master_Venue" />
+    <EntitySet Name="Master_VenueScreen" EntityType="MySportsBookModel.Master_VenueScreen" />
+    <EntitySet Name="OtherBookings" EntityType="MySportsBookModel.OtherBooking" />
+    <EntitySet Name="OtherBookingDetails" EntityType="MySportsBookModel.OtherBookingDetail" />
     <EntitySet Name="Transaction_Attendance" EntityType="MySportsBookModel.Transaction_Attendance" />
     <EntitySet Name="Transaction_PlayerSport" EntityType="MySportsBookModel.Transaction_PlayerSport" />
     <EntitySet Name="Transaction_Receipt" EntityType="MySportsBookModel.Transaction_Receipt" />
@@ -34,6 +42,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Format" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format">
       <End Role="Configuration_Format" EntitySet="Configuration_Format" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Format1" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format1">
+      <End Role="Configuration_Format" EntitySet="Configuration_Format" />
       <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_PlayerSport_Configuration_InvoicePeriod" Association="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_InvoicePeriod">
@@ -45,6 +57,10 @@
       <End Role="Master_Player" EntitySet="Master_Player" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Screen" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen">
+      <End Role="Configuration_Screen" EntitySet="Configuration_Screen" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Screen1" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen1">
       <End Role="Configuration_Screen" EntitySet="Configuration_Screen" />
       <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
     </AssociationSet>
@@ -73,6 +89,10 @@
       <End Role="Master_RoleScreen" EntitySet="Master_RoleScreen" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Status" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status">
+      <End Role="Configuration_Status" EntitySet="Configuration_Status" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_Status1" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status1">
       <End Role="Configuration_Status" EntitySet="Configuration_Status" />
       <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
     </AssociationSet>
@@ -138,9 +158,17 @@
     </AssociationSet>
     <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_User" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User">
       <End Role="Configuration_User" EntitySet="Configuration_User" />
-      <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_User1" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User1">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_User2" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User2">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Configuration_User3" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User3">
       <End Role="Configuration_User" EntitySet="Configuration_User" />
       <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
     </AssociationSet>
@@ -208,6 +236,10 @@
       <End Role="Configuration_User" EntitySet="Configuration_User" />
       <End Role="Transaction_Receipt" EntitySet="Transaction_Receipt" />
     </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Receipt_Configuration_User2" Association="MySportsBookModel.FK_Transaction_Receipt_Configuration_User2">
+      <End Role="Configuration_User" EntitySet="Configuration_User" />
+      <End Role="Transaction_Receipt" EntitySet="Transaction_Receipt" />
+    </AssociationSet>
     <AssociationSet Name="FK_Transaction_Voucher_Configuration_User" Association="MySportsBookModel.FK_Transaction_Voucher_Configuration_User">
       <End Role="Configuration_User" EntitySet="Configuration_User" />
       <End Role="Transaction_Voucher" EntitySet="Transaction_Voucher" />
@@ -240,9 +272,21 @@
       <End Role="Master_Court" EntitySet="Master_Court" />
       <End Role="Transaction_PlayerSport" EntitySet="Transaction_PlayerSport" />
     </AssociationSet>
+    <AssociationSet Name="FK_Enquiry_Master_Venue" Association="MySportsBookModel.FK_Enquiry_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Enquiry_Comments_Master_Enquiry" Association="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry">
+      <End Role="Master_Enquiry" EntitySet="Master_Enquiry" />
+      <End Role="Transaction_Enquiry_Comments" EntitySet="Transaction_Enquiry_Comments" />
+    </AssociationSet>
     <AssociationSet Name="FK_Master_Player_Master_Venue" Association="MySportsBookModel.FK_Master_Player_Master_Venue">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
       <End Role="Master_Player" EntitySet="Master_Player" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_Venue_Master_Player" Association="MySportsBookModel.FK_Master_Venue_Master_Player">
+      <End Role="Master_Player" EntitySet="Master_Player" />
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_Attendance_Master_Player" Association="MySportsBookModel.FK_Transaction_Attendance_Master_Player">
       <End Role="Master_Player" EntitySet="Master_Player" />
@@ -265,14 +309,14 @@
       <End Role="Master_UserRole" EntitySet="Master_UserRole" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_RoleScreen_Master_ScreenNumberFormat" Association="MySportsBookModel.FK_Master_RoleScreen_Master_ScreenNumberFormat">
-      <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
       <End Role="Master_RoleScreen" EntitySet="Master_RoleScreen" />
     </AssociationSet>
     <AssociationSet Name="FK_Master_RoleScreen_Master_Venue" Association="MySportsBookModel.FK_Master_RoleScreen_Master_Venue">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
       <End Role="Master_RoleScreen" EntitySet="Master_RoleScreen" />
     </AssociationSet>
-    <AssociationSet Name="FK_Master_ScreenNumberFormat_Master_Venue" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue">
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Master_Venue1" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue1">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
       <End Role="Master_ScreenNumberFormat" EntitySet="Master_ScreenNumberFormat" />
     </AssociationSet>
@@ -291,6 +335,18 @@
     <AssociationSet Name="FK_Master_UserVenue_Master_Venue" Association="MySportsBookModel.FK_Master_UserVenue_Master_Venue">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
       <End Role="Master_UserVenue" EntitySet="Master_UserVenue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ScreenNumberFormat_Master_Venue" Association="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="Master_VenueScreen" EntitySet="Master_VenueScreen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBooking_Master_Venue" Association="MySportsBookModel.FK_OtherBooking_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="OtherBooking" EntitySet="OtherBookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OtherBookingDetail_Master_Venue" Association="MySportsBookModel.FK_OtherBookingDetail_Master_Venue">
+      <End Role="Master_Venue" EntitySet="Master_Venue" />
+      <End Role="OtherBookingDetail" EntitySet="OtherBookingDetails" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_Attendance_Master_Venue" Association="MySportsBookModel.FK_Transaction_Attendance_Master_Venue">
       <End Role="Master_Venue" EntitySet="Master_Venue" />
@@ -472,8 +528,11 @@
       <PropertyRef Name="PK_NumberFormatId" />
     </Key>
     <Property Name="PK_NumberFormatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="NumberFormat" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format" FromRole="Configuration_Format" ToRole="Master_ScreenNumberFormat" />
+    <Property Name="NumberFormat" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Divider" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="NumberLength" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format" FromRole="Configuration_Format" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format1" FromRole="Configuration_Format" ToRole="Master_ScreenNumberFormat" />
   </EntityType>
   <EntityType Name="Configuration_InvoicePeriod">
     <Key>
@@ -500,7 +559,9 @@
     <Property Name="PK_ScreenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Screen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="ScreenCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen" FromRole="Configuration_Screen" ToRole="Master_ScreenNumberFormat" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen" FromRole="Configuration_Screen" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen1" FromRole="Configuration_Screen" ToRole="Master_ScreenNumberFormat" />
   </EntityType>
   <EntityType Name="Configuration_Status">
     <Key>
@@ -515,7 +576,8 @@
     <NavigationProperty Name="Master_Player" Relationship="MySportsBookModel.FK_Master_Player_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_Player" />
     <NavigationProperty Name="Master_Role" Relationship="MySportsBookModel.FK_Master_Role_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_Role" />
     <NavigationProperty Name="Master_RoleScreen" Relationship="MySportsBookModel.FK_Master_RoleScreen_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_RoleScreen" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_ScreenNumberFormat" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status1" FromRole="Configuration_Status" ToRole="Master_ScreenNumberFormat" />
     <NavigationProperty Name="Master_Sport" Relationship="MySportsBookModel.FK_Master_Sport_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_Sport" />
     <NavigationProperty Name="Master_UserVenue" Relationship="MySportsBookModel.FK_Master_UserVenue_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_UserVenue" />
     <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_Venue_Configuration_Status" FromRole="Configuration_Status" ToRole="Master_Venue" />
@@ -553,8 +615,10 @@
     <NavigationProperty Name="Master_Role1" Relationship="MySportsBookModel.FK_Master_Role_Configuration_User1" FromRole="Configuration_User" ToRole="Master_Role" />
     <NavigationProperty Name="Master_RoleScreen" Relationship="MySportsBookModel.FK_Master_RoleScreen_Configuration_User" FromRole="Configuration_User" ToRole="Master_RoleScreen" />
     <NavigationProperty Name="Master_RoleScreen1" Relationship="MySportsBookModel.FK_Master_RoleScreen_Configuration_User1" FromRole="Configuration_User" ToRole="Master_RoleScreen" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User" FromRole="Configuration_User" ToRole="Master_ScreenNumberFormat" />
-    <NavigationProperty Name="Master_ScreenNumberFormat1" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User1" FromRole="Configuration_User" ToRole="Master_ScreenNumberFormat" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User" FromRole="Configuration_User" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="Master_VenueScreen1" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User1" FromRole="Configuration_User" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User2" FromRole="Configuration_User" ToRole="Master_ScreenNumberFormat" />
+    <NavigationProperty Name="Master_ScreenNumberFormat1" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User3" FromRole="Configuration_User" ToRole="Master_ScreenNumberFormat" />
     <NavigationProperty Name="Master_Sport" Relationship="MySportsBookModel.FK_Master_Sport_Configuration_User" FromRole="Configuration_User" ToRole="Master_Sport" />
     <NavigationProperty Name="Master_Sport1" Relationship="MySportsBookModel.FK_Master_Sport_Configuration_User1" FromRole="Configuration_User" ToRole="Master_Sport" />
     <NavigationProperty Name="Master_UserRole" Relationship="MySportsBookModel.FK_Master_UserRole_Configuration_User" FromRole="Configuration_User" ToRole="Master_UserRole" />
@@ -571,6 +635,7 @@
     <NavigationProperty Name="Transaction_PlayerSport1" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_User1" FromRole="Configuration_User" ToRole="Transaction_PlayerSport" />
     <NavigationProperty Name="Transaction_Receipt" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User" FromRole="Configuration_User" ToRole="Transaction_Receipt" />
     <NavigationProperty Name="Transaction_Receipt1" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User1" FromRole="Configuration_User" ToRole="Transaction_Receipt" />
+    <NavigationProperty Name="Transaction_Receipt2" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User2" FromRole="Configuration_User" ToRole="Transaction_Receipt" />
     <NavigationProperty Name="Transaction_Voucher" Relationship="MySportsBookModel.FK_Transaction_Voucher_Configuration_User" FromRole="Configuration_User" ToRole="Transaction_Voucher" />
     <NavigationProperty Name="Transaction_Voucher1" Relationship="MySportsBookModel.FK_Transaction_Voucher_Configuration_User1" FromRole="Configuration_User" ToRole="Transaction_Voucher" />
     <NavigationProperty Name="OtherBookings" Relationship="MySportsBookModel.FK_OtherBooking_Configuration_User" FromRole="Configuration_User" ToRole="OtherBooking" />
@@ -627,13 +692,28 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="BatchCounts" Relationship="MySportsBookModel.FK_BatchCount_Master_Court" FromRole="Master_Court" ToRole="BatchCount" />
     <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Master_Court_Configuration_Status" FromRole="Master_Court" ToRole="Configuration_Status" />
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_Court_Configuration_User" FromRole="Master_Court" ToRole="Configuration_User" />
     <NavigationProperty Name="Master_Sport" Relationship="MySportsBookModel.FK_Master_Court_Master_Sport" FromRole="Master_Court" ToRole="Master_Sport" />
     <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_Court_Master_Venue" FromRole="Master_Court" ToRole="Master_Venue" />
     <NavigationProperty Name="Transaction_PlayerSport" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Master_Court" FromRole="Master_Court" ToRole="Transaction_PlayerSport" />
     <NavigationProperty Name="Master_Batch" Relationship="MySportsBookModel.FK_Master_Batch_Master_Court" FromRole="Master_Court" ToRole="Master_Batch" />
+  </EntityType>
+  <EntityType Name="Master_Enquiry">
+    <Key>
+      <PropertyRef Name="PK_EnquiryId" />
+    </Key>
+    <Property Name="PK_EnquiryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Game" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Slot" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Comments" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Enquiry_Master_Venue" FromRole="Master_Enquiry" ToRole="Master_Venue" />
+    <NavigationProperty Name="Transaction_Enquiry_Comments" Relationship="MySportsBookModel.FK_Transaction_Enquiry_Comments_Master_Enquiry" FromRole="Master_Enquiry" ToRole="Transaction_Enquiry_Comments" />
   </EntityType>
   <EntityType Name="Master_Player">
     <Key>
@@ -656,11 +736,13 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreditBalance" Type="Decimal" Precision="19" Scale="4" />
     <NavigationProperty Name="Configuration_PlayerType" Relationship="MySportsBookModel.FK_Master_Player_Configuration_PlayerType" FromRole="Master_Player" ToRole="Configuration_PlayerType" />
     <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Master_Player_Configuration_Status" FromRole="Master_Player" ToRole="Configuration_Status" />
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_Player_Configuration_User" FromRole="Master_Player" ToRole="Configuration_User" />
     <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Master_Player_Configuration_User1" FromRole="Master_Player" ToRole="Configuration_User" />
     <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_Player_Master_Venue" FromRole="Master_Player" ToRole="Master_Venue" />
+    <NavigationProperty Name="Master_Venue1" Relationship="MySportsBookModel.FK_Master_Venue_Master_Player" FromRole="Master_Player" ToRole="Master_Venue" />
     <NavigationProperty Name="Transaction_Attendance" Relationship="MySportsBookModel.FK_Transaction_Attendance_Master_Player" FromRole="Master_Player" ToRole="Transaction_Attendance" />
     <NavigationProperty Name="Transaction_PlayerSport" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Master_Player" FromRole="Master_Player" ToRole="Transaction_PlayerSport" />
     <NavigationProperty Name="Master_Batch" Relationship="MySportsBookModel.FK_Master_Batch_Master_Player" FromRole="Master_Player" ToRole="Master_Batch" />
@@ -702,7 +784,7 @@
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_RoleScreen_Configuration_User" FromRole="Master_RoleScreen" ToRole="Configuration_User" />
     <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Master_RoleScreen_Configuration_User1" FromRole="Master_RoleScreen" ToRole="Configuration_User" />
     <NavigationProperty Name="Master_Role" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_Role" FromRole="Master_RoleScreen" ToRole="Master_Role" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_ScreenNumberFormat" FromRole="Master_RoleScreen" ToRole="Master_ScreenNumberFormat" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_ScreenNumberFormat" FromRole="Master_RoleScreen" ToRole="Master_VenueScreen" />
     <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_Venue" FromRole="Master_RoleScreen" ToRole="Master_Venue" />
   </EntityType>
   <EntityType Name="Master_ScreenNumberFormat">
@@ -712,21 +794,20 @@
     <Property Name="PK_ScreenNumberFormatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
     <Property Name="FK_ScreenId" Type="Int32" Nullable="false" />
-    <Property Name="Prefix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="CurrentNo" Type="Int32" Nullable="false" />
     <Property Name="FK_FormatId" Type="Int32" Nullable="false" />
     <Property Name="FK_StatusId" Type="Int32" Nullable="false" />
+    <Property Name="CurrentNo" Type="Int32" Nullable="false" />
+    <Property Name="Prefix" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="CreatedBy" Type="Int32" Nullable="false" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Configuration_Format" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Format" />
-    <NavigationProperty Name="Configuration_Screen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Screen" />
-    <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Status" />
-    <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_User" />
-    <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User1" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_User" />
-    <NavigationProperty Name="Master_RoleScreen" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_ScreenNumberFormat" FromRole="Master_ScreenNumberFormat" ToRole="Master_RoleScreen" />
-    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue" FromRole="Master_ScreenNumberFormat" ToRole="Master_Venue" />
+    <NavigationProperty Name="Configuration_Format" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Format1" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Format" />
+    <NavigationProperty Name="Configuration_Screen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Screen1" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Screen" />
+    <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_Status1" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_Status" />
+    <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User2" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_User" />
+    <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Configuration_User3" FromRole="Master_ScreenNumberFormat" ToRole="Configuration_User" />
+    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue1" FromRole="Master_ScreenNumberFormat" ToRole="Master_Venue" />
   </EntityType>
   <EntityType Name="Master_Sport">
     <Key>
@@ -804,7 +885,9 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="BatchCounts" Relationship="MySportsBookModel.FK_BatchCount_Master_Venue" FromRole="Master_Venue" ToRole="BatchCount" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GuestPlayerId" Type="Int32" />
     <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Master_Venue_Configuration_Status" FromRole="Master_Venue" ToRole="Configuration_Status" />
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Master_Venue_Configuration_User" FromRole="Master_Venue" ToRole="Configuration_User" />
     <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Master_Venue_Configuration_User1" FromRole="Master_Venue" ToRole="Configuration_User" />
@@ -812,13 +895,18 @@
     <NavigationProperty Name="Configuration_User3" Relationship="MySportsBookModel.FK_Master_Venue_Configuration_User3" FromRole="Master_Venue" ToRole="Configuration_User" />
     <NavigationProperty Name="Master_CoachingLevel" Relationship="MySportsBookModel.FK_Master_CoachingLevel_Master_Venue" FromRole="Master_Venue" ToRole="Master_CoachingLevel" />
     <NavigationProperty Name="Master_Court" Relationship="MySportsBookModel.FK_Master_Court_Master_Venue" FromRole="Master_Venue" ToRole="Master_Court" />
+    <NavigationProperty Name="Master_Enquiry" Relationship="MySportsBookModel.FK_Enquiry_Master_Venue" FromRole="Master_Venue" ToRole="Master_Enquiry" />
     <NavigationProperty Name="Master_Player" Relationship="MySportsBookModel.FK_Master_Player_Master_Venue" FromRole="Master_Venue" ToRole="Master_Player" />
+    <NavigationProperty Name="Master_Player1" Relationship="MySportsBookModel.FK_Master_Venue_Master_Player" FromRole="Master_Venue" ToRole="Master_Player" />
     <NavigationProperty Name="Master_Role" Relationship="MySportsBookModel.FK_Master_Role_Master_Venue" FromRole="Master_Venue" ToRole="Master_Role" />
     <NavigationProperty Name="Master_RoleScreen" Relationship="MySportsBookModel.FK_Master_RoleScreen_Master_Venue" FromRole="Master_Venue" ToRole="Master_RoleScreen" />
-    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue" FromRole="Master_Venue" ToRole="Master_ScreenNumberFormat" />
+    <NavigationProperty Name="Master_ScreenNumberFormat" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue1" FromRole="Master_Venue" ToRole="Master_ScreenNumberFormat" />
     <NavigationProperty Name="Master_Sport" Relationship="MySportsBookModel.FK_Master_Sport_Master_Venue" FromRole="Master_Venue" ToRole="Master_Sport" />
     <NavigationProperty Name="Master_UserRole" Relationship="MySportsBookModel.FK_Master_UserRole_Master_Venue" FromRole="Master_Venue" ToRole="Master_UserRole" />
     <NavigationProperty Name="Master_UserVenue" Relationship="MySportsBookModel.FK_Master_UserVenue_Master_Venue" FromRole="Master_Venue" ToRole="Master_UserVenue" />
+    <NavigationProperty Name="Master_VenueScreen" Relationship="MySportsBookModel.FK_Master_ScreenNumberFormat_Master_Venue" FromRole="Master_Venue" ToRole="Master_VenueScreen" />
+    <NavigationProperty Name="OtherBookings" Relationship="MySportsBookModel.FK_OtherBooking_Master_Venue" FromRole="Master_Venue" ToRole="OtherBooking" />
+    <NavigationProperty Name="OtherBookingDetails" Relationship="MySportsBookModel.FK_OtherBookingDetail_Master_Venue" FromRole="Master_Venue" ToRole="OtherBookingDetail" />
     <NavigationProperty Name="Transaction_Attendance" Relationship="MySportsBookModel.FK_Transaction_Attendance_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_Attendance" />
     <NavigationProperty Name="Transaction_PlayerSport" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_PlayerSport" />
     <NavigationProperty Name="Transaction_Receipt" Relationship="MySportsBookModel.FK_Transaction_Receipt_Master_Venue" FromRole="Master_Venue" ToRole="Transaction_Receipt" />
@@ -865,6 +953,7 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="Fee" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <NavigationProperty Name="Configuration_InvoicePeriod" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_InvoicePeriod" FromRole="Transaction_PlayerSport" ToRole="Configuration_InvoicePeriod" />
     <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_Status" FromRole="Transaction_PlayerSport" ToRole="Configuration_Status" />
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Transaction_PlayerSport_Configuration_User" FromRole="Transaction_PlayerSport" ToRole="Configuration_User" />
@@ -886,9 +975,9 @@
     <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
     <Property Name="FK_InvoiceId" Type="Int32" Nullable="false" />
-    <Property Name="AmountTobePaid" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="OtherAmount" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="DiscountAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalFee" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="TotalOtherAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="TotalDiscountAmount" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="AmountPaid" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="FK_PaymentModeId" Type="Int32" Nullable="false" />
@@ -898,9 +987,12 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="TransactionDate" Type="DateTime" Precision="3" />
+    <Property Name="ReceivedBy" Type="Int32" />
     <NavigationProperty Name="Configuration_Status" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_Status" FromRole="Transaction_Receipt" ToRole="Configuration_Status" />
     <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User" FromRole="Transaction_Receipt" ToRole="Configuration_User" />
     <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User1" FromRole="Transaction_Receipt" ToRole="Configuration_User" />
+    <NavigationProperty Name="Configuration_User2" Relationship="MySportsBookModel.FK_Transaction_Receipt_Configuration_User2" FromRole="Transaction_Receipt" ToRole="Configuration_User" />
     <NavigationProperty Name="Confirguration_PaymentMode" Relationship="MySportsBookModel.FK_Transaction_Receipt_Confirguration_PaymentMode" FromRole="Transaction_Receipt" ToRole="Confirguration_PaymentMode" />
     <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_Transaction_Receipt_Master_Venue" FromRole="Transaction_Receipt" ToRole="Master_Venue" />
     <NavigationProperty Name="Transaction_Invoice" Relationship="MySportsBookModel.FK_Transaction_Receipt_Transaction_Invoice" FromRole="Transaction_Receipt" ToRole="Transaction_Invoice" />
@@ -931,11 +1023,11 @@
     <End Type="MySportsBookModel.Master_Court" Role="Master_Court" Multiplicity="1" />
     <End Type="MySportsBookModel.BatchCount" Role="BatchCount" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Master_Court">
-        <PropertyRef Name="PK_CourtId" />
+      <Principal Role="Configuration_Format">
+        <PropertyRef Name="PK_NumberFormatId" />
       </Principal>
-      <Dependent Role="BatchCount">
-        <PropertyRef Name="FK_CourtId" />
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="FK_FormatId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -988,6 +1080,18 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Master_ScreenNumberFormat_Configuration_Screen">
+    <End Type="MySportsBookModel.Configuration_Screen" Role="Configuration_Screen" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_Screen">
+        <PropertyRef Name="PK_ScreenId" />
+      </Principal>
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="FK_ScreenId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_ScreenNumberFormat_Configuration_Screen1">
     <End Type="MySportsBookModel.Configuration_Screen" Role="Configuration_Screen" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1072,6 +1176,18 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Master_ScreenNumberFormat_Configuration_Status">
+    <End Type="MySportsBookModel.Configuration_Status" Role="Configuration_Status" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_Status">
+        <PropertyRef Name="PK_StatusId" />
+      </Principal>
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="FK_StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_ScreenNumberFormat_Configuration_Status1">
     <End Type="MySportsBookModel.Configuration_Status" Role="Configuration_Status" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1265,6 +1381,30 @@
   </Association>
   <Association Name="FK_Master_ScreenNumberFormat_Configuration_User">
     <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_ScreenNumberFormat_Configuration_User1">
+    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="0..1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="ModifiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_ScreenNumberFormat_Configuration_User2">
+    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Configuration_User">
@@ -1275,7 +1415,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Master_ScreenNumberFormat_Configuration_User1">
+  <Association Name="FK_Master_ScreenNumberFormat_Configuration_User3">
     <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="0..1" />
     <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1479,6 +1619,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Transaction_Receipt_Configuration_User2">
+    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="0..1" />
+    <End Type="MySportsBookModel.Transaction_Receipt" Role="Transaction_Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Configuration_User">
+        <PropertyRef Name="PK_UserId" />
+      </Principal>
+      <Dependent Role="Transaction_Receipt">
+        <PropertyRef Name="ReceivedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Transaction_Voucher_Configuration_User">
     <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="1" />
     <End Type="MySportsBookModel.Transaction_Voucher" Role="Transaction_Voucher" Multiplicity="*" />
@@ -1575,6 +1727,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Enquiry_Master_Venue">
+    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="Master_Enquiry">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Enquiry_Comments_Master_Enquiry">
+    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="1" />
+    <End Type="MySportsBookModel.Transaction_Enquiry_Comments" Role="Transaction_Enquiry_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Enquiry">
+        <PropertyRef Name="PK_EnquiryId" />
+      </Principal>
+      <Dependent Role="Transaction_Enquiry_Comments">
+        <PropertyRef Name="FK_EnquiryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Master_Player_Master_Venue">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_Player" Role="Master_Player" Multiplicity="*" />
@@ -1584,6 +1760,18 @@
       </Principal>
       <Dependent Role="Master_Player">
         <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_Venue_Master_Player">
+    <End Type="MySportsBookModel.Master_Player" Role="Master_Player" Multiplicity="0..1" />
+    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Player">
+        <PropertyRef Name="PK_PlayerId" />
+      </Principal>
+      <Dependent Role="Master_Venue">
+        <PropertyRef Name="GuestPlayerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1648,11 +1836,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Master_RoleScreen_Master_ScreenNumberFormat">
-    <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_RoleScreen" Role="Master_RoleScreen" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Master_ScreenNumberFormat">
-        <PropertyRef Name="PK_ScreenNumberFormatId" />
+      <Principal Role="Master_VenueScreen">
+        <PropertyRef Name="PK_VenueScreenId" />
       </Principal>
       <Dependent Role="Master_RoleScreen">
         <PropertyRef Name="FK_VenueScreenId" />
@@ -1671,7 +1859,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Master_ScreenNumberFormat_Master_Venue">
+  <Association Name="FK_Master_ScreenNumberFormat_Master_Venue1">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
     <End Type="MySportsBookModel.Master_ScreenNumberFormat" Role="Master_ScreenNumberFormat" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1731,6 +1919,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Master_ScreenNumberFormat_Master_Venue">
+    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
+    <End Type="MySportsBookModel.Master_VenueScreen" Role="Master_VenueScreen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="Master_VenueScreen">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_PlayerSport_Master_Venue">
+    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
+    <End Type="MySportsBookModel.OtherBookingDetail" Role="OtherBookingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_Venue">
+        <PropertyRef Name="PK_VenueId" />
+      </Principal>
+      <Dependent Role="OtherBookingDetail">
+        <PropertyRef Name="FK_VenueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Transaction_Attendance_Master_Venue">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
     <End Type="MySportsBookModel.Transaction_Attendance" Role="Transaction_Attendance" Multiplicity="*" />
@@ -1739,30 +1951,6 @@
         <PropertyRef Name="PK_VenueId" />
       </Principal>
       <Dependent Role="Transaction_Attendance">
-        <PropertyRef Name="FK_VenueId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Transaction_PlayerSport_Master_Venue">
-    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
-    <End Type="MySportsBookModel.Transaction_PlayerSport" Role="Transaction_PlayerSport" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Master_Venue">
-        <PropertyRef Name="PK_VenueId" />
-      </Principal>
-      <Dependent Role="Transaction_PlayerSport">
-        <PropertyRef Name="FK_VenueId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Transaction_Receipt_Master_Venue">
-    <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
-    <End Type="MySportsBookModel.Transaction_Receipt" Role="Transaction_Receipt" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Master_Venue">
-        <PropertyRef Name="PK_VenueId" />
-      </Principal>
-      <Dependent Role="Transaction_Receipt">
         <PropertyRef Name="FK_VenueId" />
       </Dependent>
     </ReferentialConstraint>
@@ -1796,137 +1984,36 @@
   </EntityType>
   <Association Name="FK_Enquiry_Master_Venue">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
-    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="*" />
+    <End Type="MySportsBookModel.Transaction_Invoice" Role="Transaction_Invoice" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Master_Venue">
         <PropertyRef Name="PK_VenueId" />
       </Principal>
-      <Dependent Role="Master_Enquiry">
+      <Dependent Role="Transaction_Invoice">
         <PropertyRef Name="FK_VenueId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Transaction_Enquiry_Comments_Master_Enquiry">
-    <End Type="MySportsBookModel.Master_Enquiry" Role="Master_Enquiry" Multiplicity="1" />
-    <End Type="MySportsBookModel.Transaction_Enquiry_Comments" Role="Transaction_Enquiry_Comments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Master_Enquiry">
-        <PropertyRef Name="PK_EnquiryId" />
-      </Principal>
-      <Dependent Role="Transaction_Enquiry_Comments">
-        <PropertyRef Name="FK_EnquiryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="OtherBooking">
-    <Key>
-      <PropertyRef Name="PK_BookingId" />
-    </Key>
-    <Property Name="PK_BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BookingNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
-    <Property Name="Amount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Mode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Message" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ModifiedBy" Type="Int32" />
-    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_OtherBooking_Configuration_User" FromRole="OtherBooking" ToRole="Configuration_User" />
-    <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_OtherBooking_Configuration_User1" FromRole="OtherBooking" ToRole="Configuration_User" />
-    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_OtherBooking_Master_Venue" FromRole="OtherBooking" ToRole="Master_Venue" />
-    <NavigationProperty Name="OtherBookingDetails" Relationship="MySportsBookModel.FK_OtherBookingDetail_OtherBooking" FromRole="OtherBooking" ToRole="OtherBookingDetail" />
-  </EntityType>
-  <EntityType Name="OtherBookingDetail">
-    <Key>
-      <PropertyRef Name="PK_BookingDetailId" />
-    </Key>
-    <Property Name="PK_BookingDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FK_BookingId" Type="Int32" Nullable="false" />
-    <Property Name="FK_VenueId" Type="Int32" Nullable="false" />
-    <Property Name="Court" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Slot" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ModifiedBy" Type="Int32" />
-    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Configuration_User" Relationship="MySportsBookModel.FK_OtherBookingDetail_Configuration_User" FromRole="OtherBookingDetail" ToRole="Configuration_User" />
-    <NavigationProperty Name="Configuration_User1" Relationship="MySportsBookModel.FK_OtherBookingDetail_Configuration_User1" FromRole="OtherBookingDetail" ToRole="Configuration_User" />
-    <NavigationProperty Name="Master_Venue" Relationship="MySportsBookModel.FK_OtherBookingDetail_Master_Venue" FromRole="OtherBookingDetail" ToRole="Master_Venue" />
-    <NavigationProperty Name="OtherBooking" Relationship="MySportsBookModel.FK_OtherBookingDetail_OtherBooking" FromRole="OtherBookingDetail" ToRole="OtherBooking" />
-  </EntityType>
-  <Association Name="FK_OtherBooking_Configuration_User">
-    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="1" />
-    <End Type="MySportsBookModel.OtherBooking" Role="OtherBooking" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Configuration_User">
-        <PropertyRef Name="PK_UserId" />
-      </Principal>
-      <Dependent Role="OtherBooking">
-        <PropertyRef Name="CreatedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OtherBooking_Configuration_User1">
-    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="0..1" />
-    <End Type="MySportsBookModel.OtherBooking" Role="OtherBooking" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Configuration_User">
-        <PropertyRef Name="PK_UserId" />
-      </Principal>
-      <Dependent Role="OtherBooking">
-        <PropertyRef Name="ModifiedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OtherBookingDetail_Configuration_User">
-    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="1" />
-    <End Type="MySportsBookModel.OtherBookingDetail" Role="OtherBookingDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Configuration_User">
-        <PropertyRef Name="PK_UserId" />
-      </Principal>
-      <Dependent Role="OtherBookingDetail">
-        <PropertyRef Name="CreatedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OtherBookingDetail_Configuration_User1">
-    <End Type="MySportsBookModel.Configuration_User" Role="Configuration_User" Multiplicity="0..1" />
-    <End Type="MySportsBookModel.OtherBookingDetail" Role="OtherBookingDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Configuration_User">
-        <PropertyRef Name="PK_UserId" />
-      </Principal>
-      <Dependent Role="OtherBookingDetail">
-        <PropertyRef Name="ModifiedBy" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_OtherBooking_Master_Venue">
+  <Association Name="FK_Transaction_PlayerSport_Master_Venue">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
-    <End Type="MySportsBookModel.OtherBooking" Role="OtherBooking" Multiplicity="*" />
+    <End Type="MySportsBookModel.Transaction_PlayerSport" Role="Transaction_PlayerSport" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Master_Venue">
         <PropertyRef Name="PK_VenueId" />
       </Principal>
-      <Dependent Role="OtherBooking">
+      <Dependent Role="Transaction_PlayerSport">
         <PropertyRef Name="FK_VenueId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_OtherBookingDetail_Master_Venue">
+  <Association Name="FK_Transaction_Receipt_Master_Venue">
     <End Type="MySportsBookModel.Master_Venue" Role="Master_Venue" Multiplicity="1" />
-    <End Type="MySportsBookModel.OtherBookingDetail" Role="OtherBookingDetail" Multiplicity="*" />
+    <End Type="MySportsBookModel.Transaction_Receipt" Role="Transaction_Receipt" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Master_Venue">
         <PropertyRef Name="PK_VenueId" />
       </Principal>
-      <Dependent Role="OtherBookingDetail">
+      <Dependent Role="Transaction_Receipt">
         <PropertyRef Name="FK_VenueId" />
       </Dependent>
     </ReferentialConstraint>

@@ -28,6 +28,7 @@ namespace MySportsBookModel
             this.Master_Sport = new HashSet<Master_Sport>();
             this.Master_UserRole = new HashSet<Master_UserRole>();
             this.Master_UserVenue = new HashSet<Master_UserVenue>();
+            this.Master_VenueScreen = new HashSet<Master_VenueScreen>();
             this.OtherBookings = new HashSet<OtherBooking>();
             this.OtherBookingDetails = new HashSet<OtherBookingDetail>();
             this.Transaction_Attendance = new HashSet<Transaction_Attendance>();
@@ -51,6 +52,7 @@ namespace MySportsBookModel
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
+        public Nullable<int> GuestPlayerId { get; set; }
     
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
@@ -67,6 +69,7 @@ namespace MySportsBookModel
         public virtual ICollection<Master_Enquiry> Master_Enquiry { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Player> Master_Player { get; set; }
+        public virtual Master_Player Master_Player1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Role> Master_Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,6 +82,8 @@ namespace MySportsBookModel
         public virtual ICollection<Master_UserRole> Master_UserRole { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_UserVenue> Master_UserVenue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Master_VenueScreen> Master_VenueScreen { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OtherBooking> OtherBookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySportsBookModel.ViewModel
 {
@@ -18,5 +14,6 @@ namespace MySportsBookModel.ViewModel
         public string Description { get; set; }
         public string PaymentMode { get; set; }
         public string TransactionNumber { get; set; }
+        public string Month { get; set; }
     }
 }

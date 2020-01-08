@@ -18,6 +18,8 @@ namespace MySportsBookModel
         public Configuration_Status()
         {
             this.Configuration_User = new HashSet<Configuration_User>();
+            this.Studio_ExpenseDetail = new HashSet<Studio_ExpenseDetail>();
+            this.IncomeDetails = new HashSet<IncomeDetail>();
             this.Master_Batch = new HashSet<Master_Batch>();
             this.Master_CoachingLevel = new HashSet<Master_CoachingLevel>();
             this.Master_Court = new HashSet<Master_Court>();
@@ -42,6 +44,10 @@ namespace MySportsBookModel
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Configuration_User> Configuration_User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Studio_ExpenseDetail> Studio_ExpenseDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IncomeDetail> IncomeDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Batch> Master_Batch { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

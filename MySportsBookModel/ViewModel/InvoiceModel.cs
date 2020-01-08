@@ -26,11 +26,15 @@ namespace MySportsBookModel.ViewModel
     }
     public class InvoiceDetailModel : BatchModel
     {
+        public int InvoiceId { get; set; }
         public int InvoiceDetailssId { get; set; }
         public int InvoicePeriodId { get; set; }
         public string InvoicePeriod { get; set; }
         public double Fee { get; set; }
         public int PayOrder { get; set; }
         public double PaidAmount { get; set; }
+        public int StatusId { get; set; }
+        public int PlayerId { get; set; }
+        public string Comments { get; set; }
     }
 }

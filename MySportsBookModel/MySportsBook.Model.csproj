@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchCount.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Configuration_BatchType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -72,6 +75,12 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Confirguration_PaymentMode.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllUserWithVenues_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IncomeDetail.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Master_Batch.cs">
@@ -99,6 +108,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Master_ScreenNumberFormat.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Master_SMS_Config.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Master_Sport.cs">
@@ -141,6 +153,30 @@
     <Compile Include="rp_COLLECTIONDETAIL_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="rp_COMMONPROCEDURE_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Scheduler.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SMSTransactionRequest.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Split_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudioEvent.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Studio_ExpenseDetail.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Transaction_Attendance.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -159,6 +195,9 @@
     <Compile Include="Transaction_Receipt.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Transaction_SaveInvoice_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Transaction_Voucher.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -175,36 +214,49 @@
     <Compile Include="ViewModel\ReceiptModel.cs" />
     <Compile Include="ViewModel\SportModel.cs" />
     <Compile Include="ViewModel\VenueModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Model.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <Compile Include="V_INVOICEandRECEIPT.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_InvoiceDetails.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_invoiceWithoutReceipt.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_PlayerDetails.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_PlayerSport.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
+    <EntityDeploy Include="Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
       <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

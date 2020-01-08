@@ -1,16 +1,15 @@
 ﻿using MySportsBook.Common;
-using System;
+using MySportsBookModel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Routing;
 
 namespace MySportsBook.Api.Controllers
 {
-    public class UserController : BaseController
+    public class UserController : ApiController
     {
+        public MySportsBookEntities dbContext;
         // GET api/user
         public IEnumerable<string> Get()
         {
@@ -27,8 +26,10 @@ namespace MySportsBook.Api.Controllers
         }
 
         [NonAction]
-        public bool Login(string username,string password)
+        public bool Login(string username, string password)
         {
+            if (dbContext == null)
+                dbContext = new MySportsBookEntities();
             var _user = dbContext.Configuration_User.ToList().Find(u => u.UserName.ToLower().Equals(username.ToLower()) || u.Email.ToLower().Equals(username.ToLower()) || u.Mobile.ToLower().Equals(username.ToLower()));
             if (_user != null)
             {

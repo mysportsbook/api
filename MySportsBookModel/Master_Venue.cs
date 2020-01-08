@@ -17,6 +17,7 @@ namespace MySportsBookModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Master_Venue()
         {
+            this.BatchCounts = new HashSet<BatchCount>();
             this.Master_Batch = new HashSet<Master_Batch>();
             this.Master_CoachingLevel = new HashSet<Master_CoachingLevel>();
             this.Master_Court = new HashSet<Master_Court>();
@@ -25,6 +26,7 @@ namespace MySportsBookModel
             this.Master_Role = new HashSet<Master_Role>();
             this.Master_RoleScreen = new HashSet<Master_RoleScreen>();
             this.Master_ScreenNumberFormat = new HashSet<Master_ScreenNumberFormat>();
+            this.Master_SMS_Config = new HashSet<Master_SMS_Config>();
             this.Master_Sport = new HashSet<Master_Sport>();
             this.Master_UserRole = new HashSet<Master_UserRole>();
             this.Master_UserVenue = new HashSet<Master_UserVenue>();
@@ -54,6 +56,8 @@ namespace MySportsBookModel
         public string Mobile { get; set; }
         public Nullable<int> GuestPlayerId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BatchCount> BatchCounts { get; set; }
         public virtual Configuration_Status Configuration_Status { get; set; }
         public virtual Configuration_User Configuration_User { get; set; }
         public virtual Configuration_User Configuration_User1 { get; set; }
@@ -76,6 +80,8 @@ namespace MySportsBookModel
         public virtual ICollection<Master_RoleScreen> Master_RoleScreen { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_ScreenNumberFormat> Master_ScreenNumberFormat { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Master_SMS_Config> Master_SMS_Config { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Master_Sport> Master_Sport { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

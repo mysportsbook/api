@@ -15,6 +15,7 @@ namespace MySportsBookModel.ViewModel
         public string Email { get; set; }
         public string Mobile { get; set; }
         public int PlayerSportId { get; set; }
+        public string LastInvGenerated { get; set; }
 
     }
 

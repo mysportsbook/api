@@ -19,5 +19,11 @@ E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\bin\Release\MySportsBook.C
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.csproj.CoreCompileInputs.cache
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.dll
 E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.pdb
-E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.csprojResolveAssemblyReference.cache
 D:\Training\MSB\API\MySportsBook.Api\MySportsBook.Common\obj\Release\MySportsBook.Common.csprojAssemblyReference.cache
+E:\DotNet\MySportsBook\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.csprojAssemblyReference.cache
+D:\Training\MSB\GitHub\api\MySportsBook.Common\bin\Release\MySportsBook.Common.dll
+D:\Training\MSB\GitHub\api\MySportsBook.Common\bin\Release\MySportsBook.Common.pdb
+D:\Training\MSB\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.csprojAssemblyReference.cache
+D:\Training\MSB\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.csproj.CoreCompileInputs.cache
+D:\Training\MSB\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.dll
+D:\Training\MSB\GitHub\api\MySportsBook.Common\obj\Release\MySportsBook.Common.pdb

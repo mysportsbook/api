@@ -26,5 +26,6 @@ namespace MySportsBookModel
         public string Description { get; set; }
         public string TransactionNumber { get; set; }
         public string TransactionDate { get; set; }
+        public string ReceivedBy { get; set; }
     }
 }

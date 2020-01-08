@@ -1,11 +1,9 @@
-﻿using MySportsBookModel.ViewModel;
+﻿using MySportsBookModel;
+using MySportsBookModel.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using MySportsBookModel;
 
 namespace MySportsBook.Api.Controllers
 {
@@ -108,7 +106,7 @@ namespace MySportsBook.Api.Controllers
                        .Join(dbContext.Master_Court.Where(c => c.FK_StatusId == 1 && c.PK_CourtId == (courtid != 0 ? courtid : c.PK_CourtId)), playspobat => playspobat.batch.FK_CourtId, court => court.PK_CourtId, (playspobat, court) => new { playspobat, court })
                        .Join(dbContext.Master_Sport.Where(s => s.FK_StatusId == 1 && s.PK_SportId == (sportid != 0 ? sportid : s.PK_SportId)), playspobatcou => playspobatcou.court.FK_SportId, sport => sport.PK_SportId, (playspobatcou, sport) => new { playspobatcou, sport })
                        .Join(dbContext.Master_Venue.Where(v => v.FK_StatusId == 1), playspobatcouspo => playspobatcouspo.playspobatcou.playspobat.batch.FK_VenueId, venue => venue.PK_VenueId, (playspobatcou, venue) => new { playspobatcou, venue })
-                       .GroupJoin(dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_BatchId== batchid).DefaultIfEmpty(),
+                       .GroupJoin(dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_BatchId == batchid).DefaultIfEmpty(),
                                     allvenue => new { _batchid = batchid, playerid = allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.PK_PlayerId },
                                     attend => new { _batchid = attend.FK_BatchId, playerid = attend.FK_PlayerId }, (allvenue, attend) => new { allvenue, attend })
                         .SelectMany(p =>
@@ -133,8 +131,11 @@ namespace MySportsBook.Api.Controllers
                              EndTime = dbContext.Master_BatchTiming.Where(t => t.FK_BatchId == a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.batch.PK_BatchId).ToList().FirstOrDefault().EndTime,
                              MaxPlayer = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.batch.MaxPlayers,
                              PlayerCount = dbContext.Transaction_PlayerSport.Where(s => s.FK_BatchId == a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.batch.PK_BatchId && s.FK_StatusId == 1).Count(),
+                             LastInvGenerated = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.playsport.LastGeneratedMonth,
                              PlayerId = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.PK_PlayerId,
-                             FirstName = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.FirstName,
+                             FirstName = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.FirstName + " - "
+                             + a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.playsport.LastGeneratedMonth + " ("
+                             + dbContext.Transaction_Attendance.Count(x => x.FK_PlayerId == a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.PK_PlayerId && x.Date.Month == (date != null ? date.Value.Month : DateTime.Now.Month) && x.Date.Year == (date != null ? date.Value.Year : DateTime.Now.Year)).ToString() + ")",
                              LastName = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.LastName,
                              Email = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.Email,
                              Mobile = a.allvenue.allvenue.playspobatcou.playspobatcou.playspobat.playersport.player.Mobile,
@@ -143,7 +144,7 @@ namespace MySportsBook.Api.Controllers
                              Present = (a.attend != null ? a.attend.Present : default(bool)),
                              Date = (a.attend != null ? a.attend.Date : default(DateTime))
                          });
-            
+
             var attendance = _allattendance.ToList();
             //Add the player from other batch
             var _transattendance = dbContext.Transaction_Attendance.Where(a => a.FK_VenueId == venueid && a.FK_BatchId == batchid && a.Date == (date != null ? date : a.Date)).ToList().GroupBy(x => x.FK_PlayerId).Select(p => p.First());
@@ -154,13 +155,16 @@ namespace MySportsBook.Api.Controllers
                 {
                     if (_allattendance.Where(a => a.PlayerId == att.att.FK_PlayerId).Count() <= 0)
                     {
+                        var _playersport = dbContext.Transaction_PlayerSport.Where(x => x.FK_PlayerId == att.att.FK_PlayerId && x.FK_StatusId == 1).FirstOrDefault();
                         attendance.Add(new AttendanceModel()
                         {
                             PlayerId = att.att.FK_PlayerId,
                             AttendanceId = att.att.PK_AttendanceId,
                             Present = dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId) != null ? dbContext.Transaction_Attendance.ToList().Find(a => a.FK_VenueId == venueid && a.Date == (date != null ? date : a.Date) && a.FK_PlayerId == att.att.FK_PlayerId).Present : false,
                             Date = date,
-                            FirstName = att.play.FirstName,
+                            FirstName = att.play.FirstName + " - "
+                            + (_playersport != null ? _playersport.LastGeneratedMonth : "Nil") + " ("
+                            + dbContext.Transaction_Attendance.Count(x => x.FK_PlayerId == att.att.FK_PlayerId && x.Date.Month == (date != null ? date.Value.Month : DateTime.Now.Month) && x.Date.Year == (date != null ? date.Value.Year : DateTime.Now.Year)).ToString() + ")",
                             LastName = att.play.LastName,
                             Email = att.play.Email,
                             Mobile = att.play.Mobile,
@@ -168,8 +172,7 @@ namespace MySportsBook.Api.Controllers
                     }
                 });
             }
-
-            return Ok(attendance);
+            return Ok(attendance.OrderBy(x => x.FirstName));
         }
     }
 }
